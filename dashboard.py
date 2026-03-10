@@ -667,10 +667,23 @@ try:
             height=400,
             plot_bgcolor='rgba(0,0,0,0)',
             paper_bgcolor='rgba(0,0,0,0)',
-            font=dict(family='Inter', color=APEX_DARK),
-            title_font=dict(size=18, color=APEX_DARK, family='Inter'),
-            xaxis=dict(showgrid=True, gridcolor='rgba(0,0,0,0.05)'),
-            yaxis=dict(showgrid=True, gridcolor='rgba(0,0,0,0.05)')
+            font=dict(family='Inter', color='#1F2937', size=12),
+            title_font=dict(size=18, color='#1F2937', family='Inter'),
+            xaxis=dict(
+                showgrid=True,
+                gridcolor='rgba(0,0,0,0.05)',
+                title_font=dict(color='#1F2937', size=14),
+                tickfont=dict(color='#1F2937', size=12)
+            ),
+            yaxis=dict(
+                showgrid=True,
+                gridcolor='rgba(0,0,0,0.05)',
+                title_font=dict(color='#1F2937', size=14),
+                tickfont=dict(color='#1F2937', size=12)
+            ),
+            legend=dict(
+                font=dict(color='#1F2937', size=12)
+            )
         )
         st.plotly_chart(fig_line, use_container_width=True)
 
@@ -695,10 +708,19 @@ try:
                 showlegend=False,
                 plot_bgcolor='rgba(0,0,0,0)',
                 paper_bgcolor='rgba(0,0,0,0)',
-                font=dict(family='Inter', color=APEX_DARK),
-                title_font=dict(size=18, color=APEX_DARK, family='Inter'),
-                xaxis=dict(showgrid=False),
-                yaxis=dict(showgrid=True, gridcolor='rgba(0,0,0,0.05)')
+                font=dict(family='Inter', color='#1F2937', size=12),
+                title_font=dict(size=18, color='#1F2937', family='Inter'),
+                xaxis=dict(
+                    showgrid=False,
+                    title_font=dict(color='#1F2937', size=14),
+                    tickfont=dict(color='#1F2937', size=12)
+                ),
+                yaxis=dict(
+                    showgrid=True,
+                    gridcolor='rgba(0,0,0,0.05)',
+                    title_font=dict(color='#1F2937', size=14),
+                    tickfont=dict(color='#1F2937', size=12)
+                )
             )
             st.plotly_chart(fig_bar, use_container_width=True)
 
@@ -718,11 +740,14 @@ try:
             fig_pie.update_layout(
                 height=400,
                 paper_bgcolor='rgba(0,0,0,0)',
-                font=dict(family='Inter', color=APEX_DARK),
-                title_font=dict(size=18, color=APEX_DARK, family='Inter')
+                font=dict(family='Inter', color='#1F2937', size=12),
+                title_font=dict(size=18, color='#1F2937', family='Inter'),
+                legend=dict(
+                    font=dict(color='#1F2937', size=12)
+                )
             )
             fig_pie.update_traces(
-                textfont=dict(size=13, family='Inter'),
+                textfont=dict(size=13, family='Inter', color='#1F2937'),
                 marker=dict(line=dict(color='white', width=2))
             )
             st.plotly_chart(fig_pie, use_container_width=True)
@@ -752,11 +777,14 @@ try:
             fig_donut.update_layout(
                 height=400,
                 paper_bgcolor='rgba(0,0,0,0)',
-                font=dict(family='Inter', color=APEX_DARK),
-                title_font=dict(size=18, color=APEX_DARK, family='Inter')
+                font=dict(family='Inter', color='#1F2937', size=12),
+                title_font=dict(size=18, color='#1F2937', family='Inter'),
+                legend=dict(
+                    font=dict(color='#1F2937', size=12)
+                )
             )
             fig_donut.update_traces(
-                textfont=dict(size=13, family='Inter'),
+                textfont=dict(size=13, family='Inter', color='#1F2937'),
                 marker=dict(line=dict(color='white', width=2))
             )
             st.plotly_chart(fig_donut, use_container_width=True)
@@ -780,10 +808,20 @@ try:
                 showlegend=False,
                 plot_bgcolor='rgba(0,0,0,0)',
                 paper_bgcolor='rgba(0,0,0,0)',
-                font=dict(family='Inter', color=APEX_DARK),
-                title_font=dict(size=18, color=APEX_DARK, family='Inter'),
-                xaxis=dict(showgrid=True, gridcolor='rgba(0,0,0,0.05)'),
-                yaxis=dict(categoryorder='total ascending', showgrid=False)
+                font=dict(family='Inter', color='#1F2937', size=12),
+                title_font=dict(size=18, color='#1F2937', family='Inter'),
+                xaxis=dict(
+                    showgrid=True,
+                    gridcolor='rgba(0,0,0,0.05)',
+                    title_font=dict(color='#1F2937', size=14),
+                    tickfont=dict(color='#1F2937', size=12)
+                ),
+                yaxis=dict(
+                    categoryorder='total ascending',
+                    showgrid=False,
+                    title_font=dict(color='#1F2937', size=14),
+                    tickfont=dict(color='#1F2937', size=11)
+                )
             )
             st.plotly_chart(fig_progress, use_container_width=True)
 
@@ -827,8 +865,12 @@ try:
                 height=400,
                 paper_bgcolor='rgba(0,0,0,0)',
                 plot_bgcolor='rgba(0,0,0,0)',
-                font=dict(family='Inter', color=APEX_DARK),
-                title_font=dict(size=18, color=APEX_DARK, family='Inter')
+                font=dict(family='Inter', color='#1F2937', size=12),
+                title_font=dict(size=18, color='#1F2937', family='Inter'),
+                yaxis=dict(
+                    title_font=dict(color='#1F2937', size=14),
+                    tickfont=dict(color='#1F2937', size=12)
+                )
             )
             st.plotly_chart(fig_funnel, use_container_width=True)
 
@@ -853,10 +895,20 @@ try:
                 showlegend=False,
                 plot_bgcolor='rgba(0,0,0,0)',
                 paper_bgcolor='rgba(0,0,0,0)',
-                font=dict(family='Inter', color=APEX_DARK),
-                title_font=dict(size=18, color=APEX_DARK, family='Inter'),
-                xaxis=dict(showgrid=True, gridcolor='rgba(0,0,0,0.05)'),
-                yaxis=dict(categoryorder='total ascending', showgrid=False)
+                font=dict(family='Inter', color='#1F2937', size=12),
+                title_font=dict(size=18, color='#1F2937', family='Inter'),
+                xaxis=dict(
+                    showgrid=True,
+                    gridcolor='rgba(0,0,0,0.05)',
+                    title_font=dict(color='#1F2937', size=14),
+                    tickfont=dict(color='#1F2937', size=12)
+                ),
+                yaxis=dict(
+                    categoryorder='total ascending',
+                    showgrid=False,
+                    title_font=dict(color='#1F2937', size=14),
+                    tickfont=dict(color='#1F2937', size=11)
+                )
             )
             st.plotly_chart(fig_partner_rev, use_container_width=True)
 

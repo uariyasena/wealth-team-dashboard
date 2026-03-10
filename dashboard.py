@@ -961,33 +961,53 @@ try:
             )
             st.plotly_chart(fig_partner_rev, use_container_width=True)
 
-        # Partnership details table
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, #003B73 0%, #000000 100%);
-                    padding: 12px 16px;
-                    border-radius: 8px 8px 0 0;
-                    margin-top: 20px;">
-            <h3 style="color: white; margin: 0; font-size: 1.1em; font-weight: 600;">
-                All Partnerships
-            </h3>
-        </div>
-        """, unsafe_allow_html=True)
+        # Partnership details table with gradient header
+        st.markdown("**All Partnerships:**")
 
         display_partnerships = relationships_df[['RelationshipID', 'PartnerName', 'PartnerType',
                                                  'RelationshipStage', 'Status', 'EstimatedAnnualRevenue_Thousands']]
         display_partnerships = display_partnerships.sort_values('EstimatedAnnualRevenue_Thousands', ascending=False)
 
-        # Rename columns for better display
-        display_partnerships = display_partnerships.rename(columns={
-            'RelationshipID': 'ID',
-            'PartnerName': 'Partner Name',
-            'PartnerType': 'Type',
-            'RelationshipStage': 'Stage',
-            'Status': 'Status',
-            'EstimatedAnnualRevenue_Thousands': 'Est. Revenue ($K)'
-        })
+        # Apply Apex gradient to table header (matching G.jpg gradient)
+        def apply_gradient_style(df):
+            # Gradient from dark navy/black to light blue-gray (left to right like G.jpg)
+            return df.style.set_table_styles([
+                {
+                    'selector': 'thead',
+                    'props': [
+                        ('background', 'linear-gradient(90deg, #0A1628 0%, #1A3A52 25%, #2D5266 50%, #5A7A8C 75%, #8AA5B5 100%)'),
+                    ]
+                },
+                {
+                    'selector': 'thead th',
+                    'props': [
+                        ('background', 'linear-gradient(90deg, #0A1628 0%, #1A3A52 25%, #2D5266 50%, #5A7A8C 75%, #8AA5B5 100%)'),
+                        ('color', 'white'),
+                        ('font-weight', '600'),
+                        ('padding', '14px 16px'),
+                        ('text-align', 'left'),
+                        ('border', 'none'),
+                        ('font-size', '0.95em')
+                    ]
+                },
+                {
+                    'selector': 'tbody td',
+                    'props': [
+                        ('padding', '12px 16px'),
+                        ('border-bottom', '1px solid rgba(0, 144, 255, 0.1)'),
+                        ('font-size', '0.9em')
+                    ]
+                },
+                {
+                    'selector': 'tbody tr:hover',
+                    'props': [
+                        ('background-color', 'rgba(0, 144, 255, 0.05)')
+                    ]
+                }
+            ])
 
-        st.dataframe(display_partnerships, use_container_width=True, hide_index=True)
+        styled_df = apply_gradient_style(display_partnerships)
+        st.dataframe(styled_df, use_container_width=True, hide_index=True)
 
     # Footer - Apex branded
     st.markdown("---")

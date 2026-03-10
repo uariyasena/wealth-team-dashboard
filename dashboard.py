@@ -219,11 +219,27 @@ st.markdown("""
 
     /* Expander - Styled */
     .streamlit-expanderHeader {
-        background-color: #F8F9FB;
-        border-radius: 8px;
-        border-left: 3px solid #0090FF;
+        background: linear-gradient(135deg, #F8F9FB 0%, #FFFFFF 100%);
+        border-radius: 10px;
+        border-left: 4px solid #0090FF;
         font-weight: 600;
-        color: #1F2937;
+        color: #003B73;
+        padding: 16px 20px;
+        box-shadow: 0 2px 4px rgba(0, 144, 255, 0.08);
+        transition: all 0.3s ease;
+    }
+
+    .streamlit-expanderHeader:hover {
+        background: linear-gradient(135deg, #E8F4FF 0%, #F8F9FB 100%);
+        box-shadow: 0 4px 8px rgba(0, 144, 255, 0.12);
+        border-left-color: #003B73;
+    }
+
+    /* Expander content */
+    .streamlit-expanderContent {
+        padding: 20px;
+        background-color: #FAFBFC;
+        border-radius: 0 0 10px 10px;
     }
 
     /* Prevent layout shift and shaking */
@@ -240,6 +256,18 @@ st.markdown("""
     /* Remove unwanted animations */
     .element-container {
         will-change: auto !important;
+    }
+
+    /* Info/Success/Warning boxes for initiatives */
+    .stAlert {
+        border-radius: 8px;
+        border-left-width: 4px;
+        padding: 16px;
+        margin: 12px 0;
+    }
+
+    [data-baseweb="notification"] {
+        border-radius: 8px;
     }
 
     /* Divider */
@@ -462,75 +490,29 @@ try:
 
     st.markdown("---")
 
-    # Q1 Initiatives Section - Card-based layout
+    # Q1 Initiatives Section - Clean expandable layout
     st.header("🚀 Q1 2026 Initiatives")
-    st.markdown("*Track key Q1 initiatives with real-time progress updates*")
 
-    # Display each initiative as a card
+    # Display initiatives in a clean, compact format
     for idx, row in initiatives_df.iterrows():
-        st.markdown(f"""
-        <div style="background: linear-gradient(135deg, #FFFFFF 0%, #F8F9FB 100%);
-                    border-radius: 12px;
-                    padding: 24px;
-                    margin: 20px 0;
-                    border-left: 5px solid #0090FF;
-                    box-shadow: 0 2px 8px rgba(0, 144, 255, 0.1);">
-            <h3 style="color: #003B73; margin: 0 0 8px 0; font-size: 1.2em;">
-                {row['InitiativeID']}: {row['InitiativeName']}
-            </h3>
-            <p style="color: #6B7280; font-size: 0.85em; margin: 0 0 16px 0;">
-                <strong>Last Updated:</strong> {row['LastUpdated']}
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
+        with st.expander(f"**{row['InitiativeID']}** - {row['InitiativeName']}", expanded=False):
+            st.markdown(f"*Last updated: {row['LastUpdated']}*")
+            st.markdown("---")
 
-        # Three columns for editable fields
-        col1, col2, col3 = st.columns(3)
+            # Progress section
+            st.markdown("### 📊 Current Progress")
+            st.info(row['Progress'])
 
-        with col1:
-            st.markdown("**📊 Progress**")
-            progress = st.text_area(
-                "Progress",
-                value=row['Progress'],
-                height=120,
-                key=f"progress_{idx}",
-                label_visibility="collapsed"
-            )
+            # Next Steps section
+            st.markdown("### ⏭️ Next Steps")
+            st.success(row['NextSteps'])
 
-        with col2:
-            st.markdown("**⏭️ Next Steps**")
-            next_steps = st.text_area(
-                "Next Steps",
-                value=row['NextSteps'],
-                height=120,
-                key=f"nextsteps_{idx}",
-                label_visibility="collapsed"
-            )
-
-        with col3:
-            st.markdown("**🚧 Blockers**")
-            blockers = st.text_area(
-                "Blockers",
-                value=row['Blockers'],
-                height=120,
-                key=f"blockers_{idx}",
-                label_visibility="collapsed"
-            )
-
-        # Update the dataframe if values changed
-        if progress != row['Progress'] or next_steps != row['NextSteps'] or blockers != row['Blockers']:
-            initiatives_df.at[idx, 'Progress'] = progress
-            initiatives_df.at[idx, 'NextSteps'] = next_steps
-            initiatives_df.at[idx, 'Blockers'] = blockers
-            initiatives_df.at[idx, 'LastUpdated'] = datetime.now().strftime('%Y-%m-%d')
-
-    # Save button
-    if st.button("💾 Save All Changes", type="primary"):
-        if dp.save_initiatives(initiatives_df):
-            st.success("✅ All initiatives updated successfully!")
-            st.cache_data.clear()
-        else:
-            st.error("❌ Error saving initiatives. Please try again.")
+            # Blockers section
+            st.markdown("### 🚧 Blockers & Risks")
+            if row['Blockers'] and str(row['Blockers']).strip():
+                st.warning(row['Blockers'])
+            else:
+                st.success("No blockers identified")
 
     st.markdown("---")
 

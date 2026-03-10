@@ -150,8 +150,11 @@ st.markdown("""
         overflow: hidden;
     }
 
-    /* Dataframe header with blue-black gradient */
-    .stDataFrame thead tr th {
+    /* Dataframe header with blue-black gradient - multiple selectors for compatibility */
+    .stDataFrame thead tr th,
+    [data-testid="stDataFrameResizable"] thead tr th,
+    div[data-testid="stDataFrame"] thead tr th,
+    .dataframe thead tr th {
         background: linear-gradient(135deg, #003B73 0%, #000000 100%) !important;
         color: white !important;
         font-weight: 600 !important;
@@ -159,13 +162,40 @@ st.markdown("""
         border: none !important;
     }
 
+    /* Dataframe header cells */
+    .stDataFrame th,
+    [data-testid="stDataFrameResizable"] th,
+    div[data-testid="stDataFrame"] th,
+    .dataframe th {
+        background: linear-gradient(135deg, #003B73 0%, #000000 100%) !important;
+        color: white !important;
+    }
+
     /* Dataframe rows */
-    .stDataFrame tbody tr {
+    .stDataFrame tbody tr,
+    [data-testid="stDataFrameResizable"] tbody tr {
         border-bottom: 1px solid rgba(0, 144, 255, 0.1) !important;
     }
 
-    .stDataFrame tbody tr:hover {
+    .stDataFrame tbody tr:hover,
+    [data-testid="stDataFrameResizable"] tbody tr:hover {
         background-color: rgba(0, 144, 255, 0.05) !important;
+    }
+
+    /* Target all table headers globally */
+    table thead {
+        background: linear-gradient(135deg, #003B73 0%, #000000 100%) !important;
+    }
+
+    table thead th {
+        background: linear-gradient(135deg, #003B73 0%, #000000 100%) !important;
+        color: white !important;
+        font-weight: 600 !important;
+    }
+
+    table th {
+        background: linear-gradient(135deg, #003B73 0%, #000000 100%) !important;
+        color: white !important;
     }
 
     /* Text Areas for Q1 Initiatives */
@@ -931,12 +961,31 @@ try:
             )
             st.plotly_chart(fig_partner_rev, use_container_width=True)
 
-        # Partnership details table
+        # Partnership details table with gradient header
         st.markdown("**All Partnerships:**")
         display_partnerships = relationships_df[['RelationshipID', 'PartnerName', 'PartnerType',
                                                  'RelationshipStage', 'Status', 'EstimatedAnnualRevenue_Thousands']]
         display_partnerships = display_partnerships.sort_values('EstimatedAnnualRevenue_Thousands', ascending=False)
-        st.dataframe(display_partnerships, use_container_width=True, hide_index=True)
+
+        # Style the dataframe with gradient header
+        def style_header(df):
+            styles = {
+                'selector': 'thead th',
+                'props': [
+                    ('background', 'linear-gradient(135deg, #003B73 0%, #000000 100%)'),
+                    ('color', 'white'),
+                    ('font-weight', '600'),
+                    ('text-align', 'left'),
+                    ('padding', '12px')
+                ]
+            }
+            return df.style.set_table_styles([styles])
+
+        st.dataframe(
+            style_header(display_partnerships),
+            use_container_width=True,
+            hide_index=True
+        )
 
     # Footer - Apex branded
     st.markdown("---")

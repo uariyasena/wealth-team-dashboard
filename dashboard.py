@@ -20,12 +20,14 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Apex Fintech Solutions Brand Colors
-APEX_PINK = "#E91E8C"  # Primary brand color
-APEX_BLUE = "#4A90E2"  # Secondary brand color
-APEX_PURPLE = "#6B46C1"  # Accent color
+# Apex Fintech Solutions Brand Colors (Blue-dominant palette)
+APEX_NAVY = "#003B73"  # Primary brand color - Deep navy blue
+APEX_BLUE = "#0090FF"  # Secondary - Bright cyan blue
+APEX_PURPLE = "#6B46C1"  # Accent - Purple
+APEX_FUCHSIA = "#E91E8C"  # Accent - Fuchsia (used sparingly)
 APEX_DARK = "#1F2937"  # Dark text
 APEX_GRAY = "#6B7280"  # Medium gray
+APEX_LIGHT_BLUE = "#4FC3F7"  # Light blue for highlights
 
 # Custom CSS styling - Apex Fintech branded
 st.markdown("""
@@ -42,19 +44,19 @@ st.markdown("""
         background: linear-gradient(135deg, #F8F9FB 0%, #FFFFFF 100%);
     }
 
-    /* Goal Cards - Apex branded with pink accent */
+    /* Goal Cards - Apex branded with blue accent */
     .goal-card {
         background: linear-gradient(135deg, #FFFFFF 0%, #F8F9FB 100%);
         border-radius: 12px;
         padding: 24px;
-        border-left: 5px solid #E91E8C;
+        border-left: 5px solid #0090FF;
         margin: 15px 0;
-        box-shadow: 0 4px 6px rgba(233, 30, 140, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 4px 6px rgba(0, 144, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
         transition: all 0.3s ease;
     }
 
     .goal-card:hover {
-        box-shadow: 0 10px 15px rgba(233, 30, 140, 0.15), 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 15px rgba(0, 144, 255, 0.2), 0 4px 6px rgba(0, 0, 0, 0.1);
         transform: translateY(-2px);
     }
 
@@ -101,14 +103,14 @@ st.markdown("""
         box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
     }
 
-    /* Headers - Apex pink gradient */
+    /* Headers - Apex blue gradient */
     h1 {
-        background: linear-gradient(135deg, #E91E8C 0%, #6B46C1 100%);
+        background: linear-gradient(135deg, #003B73 0%, #0090FF 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         font-weight: 700;
-        border-bottom: 3px solid #E91E8C;
+        border-bottom: 3px solid #0090FF;
         padding-bottom: 12px;
         margin-bottom: 20px;
     }
@@ -138,32 +140,32 @@ st.markdown("""
         overflow: hidden;
     }
 
-    /* Buttons - Apex pink */
+    /* Buttons - Apex cyan blue */
     .stButton > button {
-        background: linear-gradient(135deg, #E91E8C 0%, #C41775 100%);
+        background: linear-gradient(135deg, #0090FF 0%, #0077CC 100%);
         color: white;
         border: none;
         border-radius: 8px;
         padding: 8px 20px;
         font-weight: 600;
         transition: all 0.3s ease;
-        box-shadow: 0 2px 4px rgba(233, 30, 140, 0.3);
+        box-shadow: 0 2px 4px rgba(0, 144, 255, 0.3);
     }
 
     .stButton > button:hover {
-        background: linear-gradient(135deg, #C41775 0%, #A01461 100%);
-        box-shadow: 0 4px 8px rgba(233, 30, 140, 0.4);
+        background: linear-gradient(135deg, #0077CC 0%, #005FA3 100%);
+        box-shadow: 0 4px 8px rgba(0, 144, 255, 0.4);
         transform: translateY(-1px);
     }
 
-    /* Progress bars - Apex gradient */
+    /* Progress bars - Apex blue gradient */
     .stProgress > div > div > div > div {
-        background: linear-gradient(90deg, #E91E8C 0%, #4A90E2 100%);
+        background: linear-gradient(90deg, #0090FF 0%, #6B46C1 100%);
     }
 
     /* Metrics */
     [data-testid="stMetricValue"] {
-        color: #E91E8C;
+        color: #0090FF;
         font-weight: 700;
         font-size: 2em;
     }
@@ -190,7 +192,7 @@ st.markdown("""
     }
 
     .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, #E91E8C 0%, #6B46C1 100%);
+        background: linear-gradient(135deg, #003B73 0%, #0090FF 100%);
         color: white;
     }
 
@@ -208,7 +210,7 @@ st.markdown("""
         margin: 2rem 0;
         border: none;
         height: 2px;
-        background: linear-gradient(90deg, #E91E8C 0%, #4A90E2 50%, transparent 100%);
+        background: linear-gradient(90deg, #0090FF 0%, #6B46C1 50%, transparent 100%);
     }
 
     /* Sidebar (if used) */
@@ -229,13 +231,13 @@ st.markdown("""
 
     /* Link colors */
     a {
-        color: #E91E8C;
+        color: #0090FF;
         text-decoration: none;
         font-weight: 500;
     }
 
     a:hover {
-        color: #4A90E2;
+        color: #003B73;
         text-decoration: underline;
     }
 </style>
@@ -243,7 +245,7 @@ st.markdown("""
 
 # Header Section with Apex Branding
 st.markdown("""
-<div style="background: linear-gradient(135deg, #E91E8C 0%, #6B46C1 100%); padding: 30px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(233, 30, 140, 0.3);">
+<div style="background: linear-gradient(135deg, #003B73 0%, #0090FF 100%); padding: 30px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0, 144, 255, 0.3);">
     <h1 style="color: white; margin: 0; font-weight: 700; font-size: 2.5em; text-align: center; -webkit-text-fill-color: white;">
         Apex Fintech Solutions
     </h1>
@@ -522,9 +524,9 @@ try:
             markers=True
         )
         fig_line.update_traces(
-            line_color=APEX_PINK,
+            line_color=APEX_BLUE,
             line_width=4,
-            marker=dict(size=10, color=APEX_PINK, line=dict(color='white', width=2))
+            marker=dict(size=10, color=APEX_BLUE, line=dict(color='white', width=2))
         )
         fig_line.update_layout(
             height=400,
@@ -551,7 +553,7 @@ try:
                 title='Revenue by Client Type (2026)',
                 labels={'ClientType': 'Client Type', 'Revenue_Thousands': 'Revenue ($K)'},
                 color='Revenue_Thousands',
-                color_continuous_scale=[[0, '#F8D7E9'], [0.5, '#E91E8C'], [1, '#6B46C1']]
+                color_continuous_scale=[[0, '#B3E5FC'], [0.5, '#0090FF'], [1, '#003B73']]
             )
             fig_bar.update_layout(
                 height=400,
@@ -568,8 +570,8 @@ try:
         with col2:
             revenue_by_category = revenue_df[revenue_df['Year'] == 2026].groupby('RevenueCategory')['Revenue_Thousands'].sum().reset_index()
 
-            # Apex branded color palette for pie chart
-            apex_colors = ['#E91E8C', '#4A90E2', '#6B46C1', '#10B981', '#F59E0B']
+            # Apex branded color palette for pie chart - blue dominant with fuchsia accent
+            apex_colors = ['#0090FF', '#003B73', '#6B46C1', '#4FC3F7', '#E91E8C']
 
             fig_pie = px.pie(
                 revenue_by_category,
@@ -601,7 +603,7 @@ try:
             status_counts.columns = ['Status', 'Count']
 
             # Status colors: Completed, In Progress, Planning
-            status_colors = {'Completed': '#10B981', 'In Progress': '#E91E8C', 'Planning': '#4A90E2'}
+            status_colors = {'Completed': '#10B981', 'In Progress': '#0090FF', 'Planning': '#6B46C1'}
 
             fig_donut = px.pie(
                 status_counts,
@@ -636,7 +638,7 @@ try:
                 title='Top 5 Enhancements by % Complete',
                 labels={'PercentComplete': 'Percent Complete', 'ProjectName': 'Project'},
                 color='PercentComplete',
-                color_continuous_scale=[[0, '#F8D7E9'], [0.5, '#E91E8C'], [1, '#10B981']]
+                color_continuous_scale=[[0, '#B3E5FC'], [0.5, '#0090FF'], [1, '#10B981']]
             )
             fig_progress.update_layout(
                 height=400,
@@ -672,8 +674,8 @@ try:
             stage_counts['Stage'] = pd.Categorical(stage_counts['Stage'], categories=stage_order, ordered=True)
             stage_counts = stage_counts.sort_values('Stage')
 
-            # Apex gradient colors for funnel stages
-            funnel_colors = ['#F8D7E9', '#F3B3D8', '#E91E8C', '#C41775', '#8E3B99', '#6B46C1']
+            # Apex gradient colors for funnel stages - blue dominant with purple/fuchsia accent
+            funnel_colors = ['#B3E5FC', '#4FC3F7', '#0090FF', '#003B73', '#6B46C1', '#E91E8C']
 
             fig_funnel = go.Figure(go.Funnel(
                 y=stage_counts['Stage'],
@@ -734,9 +736,9 @@ try:
     st.markdown("---")
     st.markdown("""
     <div style="text-align: center; padding: 30px 0; margin-top: 40px;">
-        <div style="background: linear-gradient(135deg, #F8F9FB 0%, #FFFFFF 100%); padding: 25px; border-radius: 12px; border-top: 3px solid #E91E8C; box-shadow: 0 -2px 10px rgba(0,0,0,0.05);">
+        <div style="background: linear-gradient(135deg, #F8F9FB 0%, #FFFFFF 100%); padding: 25px; border-radius: 12px; border-top: 3px solid #0090FF; box-shadow: 0 -2px 10px rgba(0,0,0,0.05);">
             <p style="color: #1F2937; font-size: 1.1em; font-weight: 600; margin: 0 0 8px 0;">
-                <span style="background: linear-gradient(135deg, #E91E8C 0%, #6B46C1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                <span style="background: linear-gradient(135deg, #003B73 0%, #0090FF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
                     Apex Fintech Solutions
                 </span> | Wealth Team Dashboard
             </p>

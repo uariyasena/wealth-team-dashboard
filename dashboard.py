@@ -20,60 +20,244 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Custom CSS styling
+# Apex Fintech Solutions Brand Colors
+APEX_PINK = "#E91E8C"  # Primary brand color
+APEX_BLUE = "#4A90E2"  # Secondary brand color
+APEX_PURPLE = "#6B46C1"  # Accent color
+APEX_DARK = "#1F2937"  # Dark text
+APEX_GRAY = "#6B7280"  # Medium gray
+
+# Custom CSS styling - Apex Fintech branded
 st.markdown("""
 <style>
+    /* Global Styling */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    html, body, [class*="css"] {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    /* Main container background with subtle gradient */
+    .main {
+        background: linear-gradient(135deg, #F8F9FB 0%, #FFFFFF 100%);
+    }
+
+    /* Goal Cards - Apex branded with pink accent */
     .goal-card {
-        background-color: #f0f2f6;
-        border-radius: 10px;
-        padding: 20px;
-        border-left: 5px solid #1f77b4;
-        margin: 10px 0;
+        background: linear-gradient(135deg, #FFFFFF 0%, #F8F9FB 100%);
+        border-radius: 12px;
+        padding: 24px;
+        border-left: 5px solid #E91E8C;
+        margin: 15px 0;
+        box-shadow: 0 4px 6px rgba(233, 30, 140, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
     }
+
+    .goal-card:hover {
+        box-shadow: 0 10px 15px rgba(233, 30, 140, 0.15), 0 4px 6px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+
+    /* Metric Container - Modern cards */
     .metric-container {
-        background-color: #ffffff;
-        border-radius: 8px;
-        padding: 15px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        background: linear-gradient(135deg, #FFFFFF 0%, #F8F9FB 100%);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(74, 144, 226, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+        border: 1px solid rgba(74, 144, 226, 0.1);
+        transition: all 0.3s ease;
     }
+
+    .metric-container:hover {
+        box-shadow: 0 4px 8px rgba(74, 144, 226, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
+        transform: translateY(-1px);
+    }
+
+    /* Status Badges - Apex colors */
     .status-badge {
         display: inline-block;
-        padding: 5px 12px;
-        border-radius: 15px;
-        font-weight: bold;
-        font-size: 0.9em;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.85em;
+        letter-spacing: 0.3px;
     }
+
     .status-on-track {
-        background-color: #d4edda;
-        color: #155724;
+        background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+        color: #FFFFFF;
+        box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
     }
+
     .status-at-risk {
-        background-color: #fff3cd;
-        color: #856404;
+        background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+        color: #FFFFFF;
+        box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
     }
+
     .status-behind {
-        background-color: #f8d7da;
-        color: #721c24;
+        background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+        color: #FFFFFF;
+        box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
     }
+
+    /* Headers - Apex pink gradient */
     h1 {
-        color: #1f77b4;
-        border-bottom: 3px solid #1f77b4;
-        padding-bottom: 10px;
+        background: linear-gradient(135deg, #E91E8C 0%, #6B46C1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 700;
+        border-bottom: 3px solid #E91E8C;
+        padding-bottom: 12px;
+        margin-bottom: 20px;
     }
+
     h2 {
-        color: #2c3e50;
-        margin-top: 30px;
+        color: #1F2937;
+        font-weight: 600;
+        margin-top: 35px;
+        margin-bottom: 20px;
     }
+
+    h3 {
+        color: #374151;
+        font-weight: 600;
+    }
+
+    /* Subheader styling */
+    .stSubheader {
+        color: #4A90E2 !important;
+        font-weight: 600;
+    }
+
+    /* Data Editor/Tables */
     .stDataFrame {
-        border: 1px solid #ddd;
-        border-radius: 5px;
+        border: 1px solid rgba(74, 144, 226, 0.2);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    /* Buttons - Apex pink */
+    .stButton > button {
+        background: linear-gradient(135deg, #E91E8C 0%, #C41775 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 20px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(233, 30, 140, 0.3);
+    }
+
+    .stButton > button:hover {
+        background: linear-gradient(135deg, #C41775 0%, #A01461 100%);
+        box-shadow: 0 4px 8px rgba(233, 30, 140, 0.4);
+        transform: translateY(-1px);
+    }
+
+    /* Progress bars - Apex gradient */
+    .stProgress > div > div > div > div {
+        background: linear-gradient(90deg, #E91E8C 0%, #4A90E2 100%);
+    }
+
+    /* Metrics */
+    [data-testid="stMetricValue"] {
+        color: #E91E8C;
+        font-weight: 700;
+        font-size: 2em;
+    }
+
+    [data-testid="stMetricDelta"] {
+        color: #6B7280;
+        font-weight: 500;
+    }
+
+    /* Tabs - Apex styled */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px;
+        background-color: #F3F4F6;
+        border-radius: 10px;
+        padding: 4px;
+    }
+
+    .stTabs [data-baseweb="tab"] {
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-weight: 600;
+        color: #6B7280;
+        background-color: transparent;
+    }
+
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, #E91E8C 0%, #6B46C1 100%);
+        color: white;
+    }
+
+    /* Expander - Styled */
+    .streamlit-expanderHeader {
+        background-color: #F8F9FB;
+        border-radius: 8px;
+        border-left: 3px solid #4A90E2;
+        font-weight: 600;
+        color: #1F2937;
+    }
+
+    /* Divider */
+    hr {
+        margin: 2rem 0;
+        border: none;
+        height: 2px;
+        background: linear-gradient(90deg, #E91E8C 0%, #4A90E2 50%, transparent 100%);
+    }
+
+    /* Sidebar (if used) */
+    .css-1d391kg {
+        background: linear-gradient(180deg, #1F2937 0%, #374151 100%);
+    }
+
+    /* Custom markdown text */
+    .markdown-text-container {
+        color: #374151;
+        line-height: 1.6;
+    }
+
+    /* Card hover effects */
+    [data-testid="stVerticalBlock"] > [style*="flex-direction: column"] > [data-testid="stVerticalBlock"] {
+        transition: all 0.3s ease;
+    }
+
+    /* Link colors */
+    a {
+        color: #E91E8C;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    a:hover {
+        color: #4A90E2;
+        text-decoration: underline;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Header Section
-st.title("📊 Wealth Team 2026 Annual Goals & Q1 Initiatives")
-st.markdown(f"**Last Updated:** {datetime.now().strftime('%B %d, %Y at %I:%M %p')}")
+# Header Section with Apex Branding
+st.markdown("""
+<div style="background: linear-gradient(135deg, #E91E8C 0%, #6B46C1 100%); padding: 30px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(233, 30, 140, 0.3);">
+    <h1 style="color: white; margin: 0; font-weight: 700; font-size: 2.5em; text-align: center; -webkit-text-fill-color: white;">
+        Apex Fintech Solutions
+    </h1>
+    <p style="color: rgba(255,255,255,0.95); text-align: center; font-size: 1.3em; margin: 10px 0 0 0; font-weight: 500;">
+        Wealth Team 2026 Annual Goals & Q1 Initiatives
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown(f"""
+<div style="text-align: center; color: {APEX_GRAY}; margin-bottom: 20px; font-size: 0.95em;">
+    <strong>Last Updated:</strong> {datetime.now().strftime('%B %d, %Y at %I:%M %p')}
+</div>
+""", unsafe_allow_html=True)
 
 # Refresh button
 col1, col2, col3 = st.columns([1, 1, 8])
@@ -337,8 +521,20 @@ try:
             labels={'MonthYear': 'Month', 'Revenue_Thousands': 'Revenue ($K)'},
             markers=True
         )
-        fig_line.update_traces(line_color='#1f77b4', line_width=3)
-        fig_line.update_layout(height=400)
+        fig_line.update_traces(
+            line_color=APEX_PINK,
+            line_width=4,
+            marker=dict(size=10, color=APEX_PINK, line=dict(color='white', width=2))
+        )
+        fig_line.update_layout(
+            height=400,
+            plot_bgcolor='rgba(0,0,0,0)',
+            paper_bgcolor='rgba(0,0,0,0)',
+            font=dict(family='Inter', color=APEX_DARK),
+            title_font=dict(size=18, color=APEX_DARK, family='Inter'),
+            xaxis=dict(showgrid=True, gridcolor='rgba(0,0,0,0.05)'),
+            yaxis=dict(showgrid=True, gridcolor='rgba(0,0,0,0.05)')
+        )
         st.plotly_chart(fig_line, use_container_width=True)
 
         # Revenue by client type
@@ -355,22 +551,43 @@ try:
                 title='Revenue by Client Type (2026)',
                 labels={'ClientType': 'Client Type', 'Revenue_Thousands': 'Revenue ($K)'},
                 color='Revenue_Thousands',
-                color_continuous_scale='Blues'
+                color_continuous_scale=[[0, '#F8D7E9'], [0.5, '#E91E8C'], [1, '#6B46C1']]
             )
-            fig_bar.update_layout(height=400, showlegend=False)
+            fig_bar.update_layout(
+                height=400,
+                showlegend=False,
+                plot_bgcolor='rgba(0,0,0,0)',
+                paper_bgcolor='rgba(0,0,0,0)',
+                font=dict(family='Inter', color=APEX_DARK),
+                title_font=dict(size=18, color=APEX_DARK, family='Inter'),
+                xaxis=dict(showgrid=False),
+                yaxis=dict(showgrid=True, gridcolor='rgba(0,0,0,0.05)')
+            )
             st.plotly_chart(fig_bar, use_container_width=True)
 
         with col2:
             revenue_by_category = revenue_df[revenue_df['Year'] == 2026].groupby('RevenueCategory')['Revenue_Thousands'].sum().reset_index()
+
+            # Apex branded color palette for pie chart
+            apex_colors = ['#E91E8C', '#4A90E2', '#6B46C1', '#10B981', '#F59E0B']
 
             fig_pie = px.pie(
                 revenue_by_category,
                 values='Revenue_Thousands',
                 names='RevenueCategory',
                 title='Revenue by Category (2026)',
-                color_discrete_sequence=px.colors.sequential.Blues_r
+                color_discrete_sequence=apex_colors
             )
-            fig_pie.update_layout(height=400)
+            fig_pie.update_layout(
+                height=400,
+                paper_bgcolor='rgba(0,0,0,0)',
+                font=dict(family='Inter', color=APEX_DARK),
+                title_font=dict(size=18, color=APEX_DARK, family='Inter')
+            )
+            fig_pie.update_traces(
+                textfont=dict(size=13, family='Inter'),
+                marker=dict(line=dict(color='white', width=2))
+            )
             st.plotly_chart(fig_pie, use_container_width=True)
 
     with tab2:
@@ -383,15 +600,28 @@ try:
             status_counts = enhancements_df['Status'].value_counts().reset_index()
             status_counts.columns = ['Status', 'Count']
 
+            # Status colors: Completed, In Progress, Planning
+            status_colors = {'Completed': '#10B981', 'In Progress': '#E91E8C', 'Planning': '#4A90E2'}
+
             fig_donut = px.pie(
                 status_counts,
                 values='Count',
                 names='Status',
                 title='Enhancements by Status',
-                hole=0.4,
-                color_discrete_sequence=px.colors.sequential.RdBu
+                hole=0.45,
+                color='Status',
+                color_discrete_map=status_colors
             )
-            fig_donut.update_layout(height=400)
+            fig_donut.update_layout(
+                height=400,
+                paper_bgcolor='rgba(0,0,0,0)',
+                font=dict(family='Inter', color=APEX_DARK),
+                title_font=dict(size=18, color=APEX_DARK, family='Inter')
+            )
+            fig_donut.update_traces(
+                textfont=dict(size=13, family='Inter'),
+                marker=dict(line=dict(color='white', width=2))
+            )
             st.plotly_chart(fig_donut, use_container_width=True)
 
         with col2:
@@ -406,9 +636,19 @@ try:
                 title='Top 5 Enhancements by % Complete',
                 labels={'PercentComplete': 'Percent Complete', 'ProjectName': 'Project'},
                 color='PercentComplete',
-                color_continuous_scale='Greens'
+                color_continuous_scale=[[0, '#F8D7E9'], [0.5, '#E91E8C'], [1, '#10B981']]
             )
-            fig_progress.update_layout(height=400, showlegend=False, yaxis={'categoryorder': 'total ascending'})
+            fig_progress.update_layout(
+                height=400,
+                showlegend=False,
+                yaxis={'categoryorder': 'total ascending'},
+                plot_bgcolor='rgba(0,0,0,0)',
+                paper_bgcolor='rgba(0,0,0,0)',
+                font=dict(family='Inter', color=APEX_DARK),
+                title_font=dict(size=18, color=APEX_DARK, family='Inter'),
+                xaxis=dict(showgrid=True, gridcolor='rgba(0,0,0,0.05)'),
+                yaxis=dict(showgrid=False)
+            )
             st.plotly_chart(fig_progress, use_container_width=True)
 
         # Enhancement details table
@@ -433,13 +673,27 @@ try:
             stage_counts['Stage'] = pd.Categorical(stage_counts['Stage'], categories=stage_order, ordered=True)
             stage_counts = stage_counts.sort_values('Stage')
 
+            # Apex gradient colors for funnel stages
+            funnel_colors = ['#F8D7E9', '#F3B3D8', '#E91E8C', '#C41775', '#8E3B99', '#6B46C1']
+
             fig_funnel = go.Figure(go.Funnel(
                 y=stage_counts['Stage'],
                 x=stage_counts['Count'],
                 textinfo="value+percent initial",
-                marker={"color": ["#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2171b5"]}
+                marker={
+                    "color": funnel_colors[:len(stage_counts)],
+                    "line": {"color": "white", "width": 2}
+                },
+                textfont={"size": 13, "family": "Inter", "color": "white"}
             ))
-            fig_funnel.update_layout(title='Partnership Pipeline Funnel', height=400)
+            fig_funnel.update_layout(
+                title='Partnership Pipeline Funnel',
+                height=400,
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='rgba(0,0,0,0)',
+                font=dict(family='Inter', color=APEX_DARK),
+                title_font=dict(size=18, color=APEX_DARK, family='Inter')
+            )
             st.plotly_chart(fig_funnel, use_container_width=True)
 
         with col2:
@@ -456,9 +710,19 @@ try:
                 title='Top 5 Partners by Est. Annual Revenue',
                 labels={'EstimatedAnnualRevenue_Thousands': 'Est. Revenue ($K)', 'PartnerName': 'Partner'},
                 color='EstimatedAnnualRevenue_Thousands',
-                color_continuous_scale='Purples'
+                color_continuous_scale=[[0, '#B8A3E8'], [0.5, '#6B46C1'], [1, '#4A90E2']]
             )
-            fig_partner_rev.update_layout(height=400, showlegend=False, yaxis={'categoryorder': 'total ascending'})
+            fig_partner_rev.update_layout(
+                height=400,
+                showlegend=False,
+                yaxis={'categoryorder': 'total ascending'},
+                plot_bgcolor='rgba(0,0,0,0)',
+                paper_bgcolor='rgba(0,0,0,0)',
+                font=dict(family='Inter', color=APEX_DARK),
+                title_font=dict(size=18, color=APEX_DARK, family='Inter'),
+                xaxis=dict(showgrid=True, gridcolor='rgba(0,0,0,0.05)'),
+                yaxis=dict(showgrid=False)
+            )
             st.plotly_chart(fig_partner_rev, use_container_width=True)
 
         # Partnership details table
@@ -468,9 +732,22 @@ try:
         display_partnerships = display_partnerships.sort_values('EstimatedAnnualRevenue_Thousands', ascending=False)
         st.dataframe(display_partnerships, use_container_width=True, hide_index=True)
 
-    # Footer
+    # Footer - Apex branded
     st.markdown("---")
-    st.markdown("*Dashboard powered by Streamlit | Data updated in real-time from CSV files*")
+    st.markdown("""
+    <div style="text-align: center; padding: 30px 0; margin-top: 40px;">
+        <div style="background: linear-gradient(135deg, #F8F9FB 0%, #FFFFFF 100%); padding: 25px; border-radius: 12px; border-top: 3px solid #E91E8C; box-shadow: 0 -2px 10px rgba(0,0,0,0.05);">
+            <p style="color: #1F2937; font-size: 1.1em; font-weight: 600; margin: 0 0 8px 0;">
+                <span style="background: linear-gradient(135deg, #E91E8C 0%, #6B46C1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                    Apex Fintech Solutions
+                </span> | Wealth Team Dashboard
+            </p>
+            <p style="color: #6B7280; font-size: 0.9em; margin: 0;">
+                Powered by Streamlit • Real-time data updates • Cloud-native infrastructure
+            </p>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 except Exception as e:
     st.error(f"❌ Error loading dashboard: {str(e)}")

@@ -234,9 +234,10 @@ st.markdown("""
         border-left: 4px solid #0090FF;
         font-weight: 600;
         color: #1F2937 !important;
-        padding: 16px 20px;
+        padding: 20px 24px;
         box-shadow: 0 2px 4px rgba(0, 144, 255, 0.08);
         transition: all 0.3s ease;
+        font-size: 1.1em;
     }
 
     .streamlit-expanderHeader:hover {
@@ -250,11 +251,22 @@ st.markdown("""
     .streamlit-expanderHeader span,
     .streamlit-expanderHeader div {
         color: #1F2937 !important;
+        font-size: 1.1em;
+        line-height: 1.5;
+    }
+
+    /* Make bold text in expander headers even bigger and blue */
+    .streamlit-expanderHeader strong {
+        color: #003B73 !important;
+        font-size: 1.3em !important;
+        font-weight: 700 !important;
     }
 
     /* Expander icon/arrow */
     .streamlit-expanderHeader svg {
         fill: #0090FF !important;
+        width: 24px !important;
+        height: 24px !important;
     }
 
     /* Expander content */

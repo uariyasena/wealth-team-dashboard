@@ -961,80 +961,33 @@ try:
             )
             st.plotly_chart(fig_partner_rev, use_container_width=True)
 
-        # Partnership details table with gradient header
-        st.markdown("**All Partnerships:**")
+        # Partnership details table
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #003B73 0%, #000000 100%);
+                    padding: 12px 16px;
+                    border-radius: 8px 8px 0 0;
+                    margin-top: 20px;">
+            <h3 style="color: white; margin: 0; font-size: 1.1em; font-weight: 600;">
+                All Partnerships
+            </h3>
+        </div>
+        """, unsafe_allow_html=True)
+
         display_partnerships = relationships_df[['RelationshipID', 'PartnerName', 'PartnerType',
                                                  'RelationshipStage', 'Status', 'EstimatedAnnualRevenue_Thousands']]
         display_partnerships = display_partnerships.sort_values('EstimatedAnnualRevenue_Thousands', ascending=False)
 
-        # Create HTML table with gradient header
-        html_table = """
-        <style>
-            .partnership-table {
-                width: 100%;
-                border-collapse: collapse;
-                border-radius: 8px;
-                overflow: hidden;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-                margin: 10px 0;
-            }
-            .partnership-table thead {
-                background: linear-gradient(135deg, #003B73 0%, #000000 100%);
-            }
-            .partnership-table th {
-                background: linear-gradient(135deg, #003B73 0%, #000000 100%);
-                color: white;
-                font-weight: 600;
-                padding: 14px 16px;
-                text-align: left;
-                font-size: 0.95em;
-                border: none;
-            }
-            .partnership-table td {
-                padding: 12px 16px;
-                border-bottom: 1px solid rgba(0, 144, 255, 0.1);
-                color: #1F2937;
-                font-size: 0.9em;
-            }
-            .partnership-table tbody tr:hover {
-                background-color: rgba(0, 144, 255, 0.05);
-            }
-            .partnership-table tbody tr:last-child td {
-                border-bottom: none;
-            }
-        </style>
-        <table class="partnership-table">
-            <thead>
-                <tr>
-                    <th>Relationship ID</th>
-                    <th>Partner Name</th>
-                    <th>Partner Type</th>
-                    <th>Relationship Stage</th>
-                    <th>Status</th>
-                    <th>Est. Annual Revenue ($K)</th>
-                </tr>
-            </thead>
-            <tbody>
-        """
+        # Rename columns for better display
+        display_partnerships = display_partnerships.rename(columns={
+            'RelationshipID': 'ID',
+            'PartnerName': 'Partner Name',
+            'PartnerType': 'Type',
+            'RelationshipStage': 'Stage',
+            'Status': 'Status',
+            'EstimatedAnnualRevenue_Thousands': 'Est. Revenue ($K)'
+        })
 
-        for _, row in display_partnerships.iterrows():
-            html_table += f"""
-                <tr>
-                    <td>{row['RelationshipID']}</td>
-                    <td><strong>{row['PartnerName']}</strong></td>
-                    <td>{row['PartnerType']}</td>
-                    <td>{row['RelationshipStage']}</td>
-                    <td>{row['Status']}</td>
-                    <td>{row['EstimatedAnnualRevenue_Thousands']:,.0f}</td>
-                </tr>
-            """
-
-        html_table += """
-            </tbody>
-        </table>
-        """
-
-        st.markdown(html_table, unsafe_allow_html=True)
+        st.dataframe(display_partnerships, use_container_width=True, hide_index=True)
 
     # Footer - Apex branded
     st.markdown("---")

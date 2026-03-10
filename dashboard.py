@@ -129,8 +129,18 @@ st.markdown("""
 
     /* Subheader styling */
     .stSubheader {
-        color: #4A90E2 !important;
+        color: #0090FF !important;
         font-weight: 600;
+    }
+
+    /* Make sure all text is readable - no white text */
+    .stMarkdown, .stText {
+        color: #1F2937 !important;
+    }
+
+    /* Expander details text */
+    details summary {
+        color: #1F2937 !important;
     }
 
     /* Data Editor/Tables */
@@ -223,7 +233,7 @@ st.markdown("""
         border-radius: 10px;
         border-left: 4px solid #0090FF;
         font-weight: 600;
-        color: #003B73;
+        color: #1F2937 !important;
         padding: 16px 20px;
         box-shadow: 0 2px 4px rgba(0, 144, 255, 0.08);
         transition: all 0.3s ease;
@@ -233,6 +243,18 @@ st.markdown("""
         background: linear-gradient(135deg, #E8F4FF 0%, #F8F9FB 100%);
         box-shadow: 0 4px 8px rgba(0, 144, 255, 0.12);
         border-left-color: #003B73;
+    }
+
+    /* Expander header text - make sure it's dark and readable */
+    .streamlit-expanderHeader p,
+    .streamlit-expanderHeader span,
+    .streamlit-expanderHeader div {
+        color: #1F2937 !important;
+    }
+
+    /* Expander icon/arrow */
+    .streamlit-expanderHeader svg {
+        fill: #0090FF !important;
     }
 
     /* Expander content */
@@ -493,26 +515,53 @@ try:
     # Q1 Initiatives Section - Clean expandable layout
     st.header("🚀 Q1 2026 Initiatives")
 
+    # Initiative descriptions
+    initiative_descriptions = {
+        'INIT001': 'Advance State Street and Mercury Broker Dealer project efforts and finalize pending contractual agreements',
+        'INIT002': 'Work across Apex to scope, document, resource, and implement Wealth business enhancements including Non-Purpose Loans, Monthly Confirm Report, RIA Trade Away, Apex Advisory solution set and Schedule A updates',
+        'INIT003': 'Continued focus on all State Street related initiatives and opportunities',
+        'INIT004': 'Negotiate and finalize agreements with State Street Investment Management and Capital Group, develop pipeline of additional distribution opportunities'
+    }
+
     # Display initiatives in a clean, compact format
     for idx, row in initiatives_df.iterrows():
-        with st.expander(f"**{row['InitiativeID']}** - {row['InitiativeName']}", expanded=False):
-            st.markdown(f"*Last updated: {row['LastUpdated']}*")
+        initiative_id = row['InitiativeID']
+        initiative_desc = initiative_descriptions.get(initiative_id, row['InitiativeName'])
+
+        with st.expander(f"**{initiative_id}** - {initiative_desc}", expanded=False):
+            st.markdown(f"<p style='color: #6B7280; font-size: 0.9em;'><em>Last updated: {row['LastUpdated']}</em></p>", unsafe_allow_html=True)
             st.markdown("---")
 
             # Progress section
             st.markdown("### 📊 Current Progress")
-            st.info(row['Progress'])
+            st.markdown(f"""
+            <div style="background-color: #E8F4FF; border-left: 4px solid #0090FF; padding: 16px; border-radius: 8px; margin: 10px 0;">
+                <p style="color: #1F2937; margin: 0; line-height: 1.6;">{row['Progress']}</p>
+            </div>
+            """, unsafe_allow_html=True)
 
             # Next Steps section
             st.markdown("### ⏭️ Next Steps")
-            st.success(row['NextSteps'])
+            st.markdown(f"""
+            <div style="background-color: #D1FAE5; border-left: 4px solid #10B981; padding: 16px; border-radius: 8px; margin: 10px 0;">
+                <p style="color: #1F2937; margin: 0; line-height: 1.6;">{row['NextSteps']}</p>
+            </div>
+            """, unsafe_allow_html=True)
 
             # Blockers section
             st.markdown("### 🚧 Blockers & Risks")
             if row['Blockers'] and str(row['Blockers']).strip():
-                st.warning(row['Blockers'])
+                st.markdown(f"""
+                <div style="background-color: #FEF3C7; border-left: 4px solid #F59E0B; padding: 16px; border-radius: 8px; margin: 10px 0;">
+                    <p style="color: #1F2937; margin: 0; line-height: 1.6;">{row['Blockers']}</p>
+                </div>
+                """, unsafe_allow_html=True)
             else:
-                st.success("No blockers identified")
+                st.markdown(f"""
+                <div style="background-color: #D1FAE5; border-left: 4px solid #10B981; padding: 16px; border-radius: 8px; margin: 10px 0;">
+                    <p style="color: #1F2937; margin: 0; line-height: 1.6;">No blockers identified</p>
+                </div>
+                """, unsafe_allow_html=True)
 
     st.markdown("---")
 

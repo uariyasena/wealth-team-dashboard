@@ -135,9 +135,30 @@ st.markdown("""
 
     /* Data Editor/Tables */
     .stDataFrame {
-        border: 1px solid rgba(74, 144, 226, 0.2);
+        border: 1px solid rgba(0, 144, 255, 0.2);
         border-radius: 8px;
         overflow: hidden;
+    }
+
+    /* Text Areas for Q1 Initiatives */
+    .stTextArea textarea {
+        border: 2px solid rgba(0, 144, 255, 0.2) !important;
+        border-radius: 8px !important;
+        padding: 12px !important;
+        font-family: 'Inter', sans-serif !important;
+        font-size: 0.9em !important;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+        background-color: white !important;
+    }
+
+    .stTextArea textarea:focus {
+        border-color: #0090FF !important;
+        box-shadow: 0 0 0 3px rgba(0, 144, 255, 0.1) !important;
+        outline: none !important;
+    }
+
+    .stTextArea textarea:hover {
+        border-color: rgba(0, 144, 255, 0.4) !important;
     }
 
     /* Buttons - Apex cyan blue */
@@ -200,9 +221,25 @@ st.markdown("""
     .streamlit-expanderHeader {
         background-color: #F8F9FB;
         border-radius: 8px;
-        border-left: 3px solid #4A90E2;
+        border-left: 3px solid #0090FF;
         font-weight: 600;
         color: #1F2937;
+    }
+
+    /* Prevent layout shift and shaking */
+    .main .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+
+    /* Stable containers - no shake on click */
+    [data-testid="stVerticalBlock"] {
+        gap: 0 !important;
+    }
+
+    /* Remove unwanted animations */
+    .element-container {
+        will-change: auto !important;
     }
 
     /* Divider */
@@ -425,33 +462,72 @@ try:
 
     st.markdown("---")
 
-    # Q1 Initiatives Section
+    # Q1 Initiatives Section - Card-based layout
     st.header("🚀 Q1 2026 Initiatives")
-    st.markdown("*Edit Progress, Next Steps, and Blockers directly in the table below. Changes auto-save.*")
+    st.markdown("*Track key Q1 initiatives with real-time progress updates*")
 
-    # Configure editable columns
-    column_config = {
-        "InitiativeID": st.column_config.TextColumn("ID", width=80, disabled=True),
-        "InitiativeName": st.column_config.TextColumn("Initiative", width=400, disabled=True),
-        "Progress": st.column_config.TextColumn("Progress", width=250),
-        "NextSteps": st.column_config.TextColumn("Next Steps", width=300),
-        "Blockers": st.column_config.TextColumn("Blockers", width=300),
-        "LastUpdated": st.column_config.DateColumn("Last Updated", width=120, disabled=True)
-    }
+    # Display each initiative as a card
+    for idx, row in initiatives_df.iterrows():
+        st.markdown(f"""
+        <div style="background: linear-gradient(135deg, #FFFFFF 0%, #F8F9FB 100%);
+                    border-radius: 12px;
+                    padding: 24px;
+                    margin: 20px 0;
+                    border-left: 5px solid #0090FF;
+                    box-shadow: 0 2px 8px rgba(0, 144, 255, 0.1);">
+            <h3 style="color: #003B73; margin: 0 0 8px 0; font-size: 1.2em;">
+                {row['InitiativeID']}: {row['InitiativeName']}
+            </h3>
+            <p style="color: #6B7280; font-size: 0.85em; margin: 0 0 16px 0;">
+                <strong>Last Updated:</strong> {row['LastUpdated']}
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
 
-    # Editable data editor
-    edited_initiatives = st.data_editor(
-        initiatives_df,
-        column_config=column_config,
-        use_container_width=True,
-        hide_index=True,
-        num_rows="fixed"
-    )
+        # Three columns for editable fields
+        col1, col2, col3 = st.columns(3)
 
-    # Auto-save on edit
-    if not edited_initiatives.equals(initiatives_df):
-        if dp.save_initiatives(edited_initiatives):
-            st.success("✅ Initiatives updated successfully!")
+        with col1:
+            st.markdown("**📊 Progress**")
+            progress = st.text_area(
+                "Progress",
+                value=row['Progress'],
+                height=120,
+                key=f"progress_{idx}",
+                label_visibility="collapsed"
+            )
+
+        with col2:
+            st.markdown("**⏭️ Next Steps**")
+            next_steps = st.text_area(
+                "Next Steps",
+                value=row['NextSteps'],
+                height=120,
+                key=f"nextsteps_{idx}",
+                label_visibility="collapsed"
+            )
+
+        with col3:
+            st.markdown("**🚧 Blockers**")
+            blockers = st.text_area(
+                "Blockers",
+                value=row['Blockers'],
+                height=120,
+                key=f"blockers_{idx}",
+                label_visibility="collapsed"
+            )
+
+        # Update the dataframe if values changed
+        if progress != row['Progress'] or next_steps != row['NextSteps'] or blockers != row['Blockers']:
+            initiatives_df.at[idx, 'Progress'] = progress
+            initiatives_df.at[idx, 'NextSteps'] = next_steps
+            initiatives_df.at[idx, 'Blockers'] = blockers
+            initiatives_df.at[idx, 'LastUpdated'] = datetime.now().strftime('%Y-%m-%d')
+
+    # Save button
+    if st.button("💾 Save All Changes", type="primary"):
+        if dp.save_initiatives(initiatives_df):
+            st.success("✅ All initiatives updated successfully!")
             st.cache_data.clear()
         else:
             st.error("❌ Error saving initiatives. Please try again.")

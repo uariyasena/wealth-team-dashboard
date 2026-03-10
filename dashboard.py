@@ -150,6 +150,24 @@ st.markdown("""
         overflow: hidden;
     }
 
+    /* Dataframe header with blue-black gradient */
+    .stDataFrame thead tr th {
+        background: linear-gradient(135deg, #003B73 0%, #000000 100%) !important;
+        color: white !important;
+        font-weight: 600 !important;
+        padding: 12px 16px !important;
+        border: none !important;
+    }
+
+    /* Dataframe rows */
+    .stDataFrame tbody tr {
+        border-bottom: 1px solid rgba(0, 144, 255, 0.1) !important;
+    }
+
+    .stDataFrame tbody tr:hover {
+        background-color: rgba(0, 144, 255, 0.05) !important;
+    }
+
     /* Text Areas for Q1 Initiatives */
     .stTextArea textarea {
         border: 2px solid rgba(0, 144, 255, 0.2) !important;
@@ -879,16 +897,17 @@ try:
             top_partners = relationships_df.nlargest(5, 'EstimatedAnnualRevenue_Thousands')[
                 ['PartnerName', 'EstimatedAnnualRevenue_Thousands']
             ]
+            # Sort for better display
+            top_partners = top_partners.sort_values('EstimatedAnnualRevenue_Thousands', ascending=True)
 
             fig_partner_rev = px.bar(
                 top_partners,
-                x='EstimatedAnnualRevenue_Thousands',
-                y='PartnerName',
-                orientation='h',
+                x='PartnerName',
+                y='EstimatedAnnualRevenue_Thousands',
                 title='Top 5 Partners by Est. Annual Revenue',
                 labels={'EstimatedAnnualRevenue_Thousands': 'Est. Revenue ($K)', 'PartnerName': 'Partner'},
                 color='EstimatedAnnualRevenue_Thousands',
-                color_continuous_scale=[[0, '#B8A3E8'], [0.5, '#6B46C1'], [1, '#4A90E2']]
+                color_continuous_scale=[[0, '#B8A3E8'], [0.5, '#6B46C1'], [1, '#003B73']]
             )
             fig_partner_rev.update_layout(
                 height=400,
@@ -898,16 +917,16 @@ try:
                 font=dict(family='Inter', color='#1F2937', size=12),
                 title_font=dict(size=18, color='#1F2937', family='Inter'),
                 xaxis=dict(
+                    showgrid=False,
+                    title_font=dict(color='#1F2937', size=14),
+                    tickfont=dict(color='#1F2937', size=11),
+                    tickangle=-45
+                ),
+                yaxis=dict(
                     showgrid=True,
                     gridcolor='rgba(0,0,0,0.05)',
                     title_font=dict(color='#1F2937', size=14),
                     tickfont=dict(color='#1F2937', size=12)
-                ),
-                yaxis=dict(
-                    categoryorder='total ascending',
-                    showgrid=False,
-                    title_font=dict(color='#1F2937', size=14),
-                    tickfont=dict(color='#1F2937', size=11)
                 )
             )
             st.plotly_chart(fig_partner_rev, use_container_width=True)

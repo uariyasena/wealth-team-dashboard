@@ -967,25 +967,74 @@ try:
                                                  'RelationshipStage', 'Status', 'EstimatedAnnualRevenue_Thousands']]
         display_partnerships = display_partnerships.sort_values('EstimatedAnnualRevenue_Thousands', ascending=False)
 
-        # Style the dataframe with gradient header
-        def style_header(df):
-            styles = {
-                'selector': 'thead th',
-                'props': [
-                    ('background', 'linear-gradient(135deg, #003B73 0%, #000000 100%)'),
-                    ('color', 'white'),
-                    ('font-weight', '600'),
-                    ('text-align', 'left'),
-                    ('padding', '12px')
-                ]
+        # Create HTML table with gradient header
+        html_table = """
+        <style>
+            .partnership-table {
+                width: 100%;
+                border-collapse: collapse;
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                margin: 10px 0;
             }
-            return df.style.set_table_styles([styles])
+            .partnership-table thead {
+                background: linear-gradient(135deg, #003B73 0%, #000000 100%);
+            }
+            .partnership-table th {
+                background: linear-gradient(135deg, #003B73 0%, #000000 100%);
+                color: white;
+                font-weight: 600;
+                padding: 14px 16px;
+                text-align: left;
+                font-size: 0.95em;
+                border: none;
+            }
+            .partnership-table td {
+                padding: 12px 16px;
+                border-bottom: 1px solid rgba(0, 144, 255, 0.1);
+                color: #1F2937;
+                font-size: 0.9em;
+            }
+            .partnership-table tbody tr:hover {
+                background-color: rgba(0, 144, 255, 0.05);
+            }
+            .partnership-table tbody tr:last-child td {
+                border-bottom: none;
+            }
+        </style>
+        <table class="partnership-table">
+            <thead>
+                <tr>
+                    <th>Relationship ID</th>
+                    <th>Partner Name</th>
+                    <th>Partner Type</th>
+                    <th>Relationship Stage</th>
+                    <th>Status</th>
+                    <th>Est. Annual Revenue ($K)</th>
+                </tr>
+            </thead>
+            <tbody>
+        """
 
-        st.dataframe(
-            style_header(display_partnerships),
-            use_container_width=True,
-            hide_index=True
-        )
+        for _, row in display_partnerships.iterrows():
+            html_table += f"""
+                <tr>
+                    <td>{row['RelationshipID']}</td>
+                    <td><strong>{row['PartnerName']}</strong></td>
+                    <td>{row['PartnerType']}</td>
+                    <td>{row['RelationshipStage']}</td>
+                    <td>{row['Status']}</td>
+                    <td>{row['EstimatedAnnualRevenue_Thousands']:,.0f}</td>
+                </tr>
+            """
+
+        html_table += """
+            </tbody>
+        </table>
+        """
+
+        st.markdown(html_table, unsafe_allow_html=True)
 
     # Footer - Apex branded
     st.markdown("---")

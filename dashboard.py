@@ -641,13 +641,12 @@ try:
             fig_progress.update_layout(
                 height=400,
                 showlegend=False,
-                yaxis={'categoryorder': 'total ascending'},
                 plot_bgcolor='rgba(0,0,0,0)',
                 paper_bgcolor='rgba(0,0,0,0)',
                 font=dict(family='Inter', color=APEX_DARK),
                 title_font=dict(size=18, color=APEX_DARK, family='Inter'),
                 xaxis=dict(showgrid=True, gridcolor='rgba(0,0,0,0.05)'),
-                yaxis=dict(showgrid=False)
+                yaxis=dict(categoryorder='total ascending', showgrid=False)
             )
             st.plotly_chart(fig_progress, use_container_width=True)
 
@@ -715,13 +714,12 @@ try:
             fig_partner_rev.update_layout(
                 height=400,
                 showlegend=False,
-                yaxis={'categoryorder': 'total ascending'},
                 plot_bgcolor='rgba(0,0,0,0)',
                 paper_bgcolor='rgba(0,0,0,0)',
                 font=dict(family='Inter', color=APEX_DARK),
                 title_font=dict(size=18, color=APEX_DARK, family='Inter'),
                 xaxis=dict(showgrid=True, gridcolor='rgba(0,0,0,0.05)'),
-                yaxis=dict(showgrid=False)
+                yaxis=dict(categoryorder='total ascending', showgrid=False)
             )
             st.plotly_chart(fig_partner_rev, use_container_width=True)
 

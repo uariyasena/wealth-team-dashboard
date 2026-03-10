@@ -1,0 +1,43 @@
+MonthYear,RevenueType,ClientName,ClientType,Revenue_Thousands,AUM_Millions,Quarter,Year,RevenueCategory,NewVsExisting
+2025-10,Custody Fees,Sterling Family Office,Family Office,45,1200,Q4,2025,Recurring,New Client
+2025-10,Advisory Fees,Heritage Trust Co,RIA,28,320,Q4,2025,Recurring,Existing Client
+2025-10,Transaction Fees,LPL Financial,Broker Dealer,156,0,Q4,2025,Variable,Existing Client
+2025-11,Custody Fees,Sterling Family Office,Family Office,45,1200,Q4,2025,Recurring,New Client
+2025-11,Advisory Fees,Heritage Trust Co,RIA,28,320,Q4,2025,Recurring,Existing Client
+2025-11,Platform Fees,Capital Group,Asset Manager,85,0,Q4,2025,Recurring,Existing Client
+2025-11,Transaction Fees,Mercury Broker Dealer,Broker Dealer,62,0,Q4,2025,Variable,Existing Client
+2025-12,Custody Fees,Sterling Family Office,Family Office,45,1200,Q4,2025,Recurring,New Client
+2025-12,Advisory Fees,Heritage Trust Co,RIA,28,320,Q4,2025,Recurring,Existing Client
+2025-12,Platform Fees,Capital Group,Asset Manager,85,0,Q4,2025,Recurring,Existing Client
+2025-12,Onboarding Fees,Greenwich Investment Group,Family Office,125,1500,Q4,2025,One-Time,New Client
+2025-12,Transaction Fees,LPL Financial,Broker Dealer,178,0,Q4,2025,Variable,Existing Client
+2026-01,Custody Fees,Sterling Family Office,Family Office,45,1200,Q1,2026,Recurring,Existing Client
+2026-01,Custody Fees,Greenwich Investment Group,Family Office,58,1500,Q1,2026,Recurring,Existing Client
+2026-01,Advisory Fees,Heritage Trust Co,RIA,28,320,Q1,2026,Recurring,Existing Client
+2026-01,Platform Fees,Capital Group,Asset Manager,85,0,Q1,2026,Recurring,Existing Client
+2026-01,Advisory Fees,Morgan Financial Group,Institutional,42,450,Q1,2026,Recurring,Pipeline Conversion
+2026-01,Transaction Fees,LPL Financial,Broker Dealer,165,0,Q1,2026,Variable,Existing Client
+2026-01,Transaction Fees,Mercury Broker Dealer,Broker Dealer,68,0,Q1,2026,Variable,Existing Client
+2026-02,Custody Fees,Sterling Family Office,Family Office,45,1200,Q1,2026,Recurring,Existing Client
+2026-02,Custody Fees,Greenwich Investment Group,Family Office,58,1500,Q1,2026,Recurring,Existing Client
+2026-02,Advisory Fees,Heritage Trust Co,RIA,28,320,Q1,2026,Recurring,Existing Client
+2026-02,Platform Fees,Capital Group,Asset Manager,85,0,Q1,2026,Recurring,Existing Client
+2026-02,Advisory Fees,Morgan Financial Group,Institutional,42,450,Q1,2026,Recurring,Existing Client
+2026-02,Platform Fees,State Street Investment Management,Asset Manager,95,0,Q1,2026,Recurring,New Partnership
+2026-02,Transaction Fees,LPL Financial,Broker Dealer,172,0,Q1,2026,Variable,Existing Client
+2026-03,Custody Fees,Sterling Family Office,Family Office,45,1200,Q1,2026,Recurring,Existing Client
+2026-03,Custody Fees,Greenwich Investment Group,Family Office,58,1500,Q1,2026,Recurring,Existing Client
+2026-03,Advisory Fees,Heritage Trust Co,RIA,32,320,Q1,2026,Recurring,Existing Client
+2026-03,Platform Fees,Capital Group,Asset Manager,85,0,Q1,2026,Recurring,Existing Client
+2026-03,Advisory Fees,Morgan Financial Group,Institutional,42,450,Q1,2026,Recurring,Existing Client
+2026-03,Platform Fees,State Street Investment Management,Asset Manager,95,0,Q1,2026,Recurring,Existing Client
+2026-03,Onboarding Fees,Prestige Capital Management,Institutional,145,675,Q1,2026,One-Time,Pipeline Conversion
+2026-03,Transaction Fees,LPL Financial,Broker Dealer,185,0,Q1,2026,Variable,Existing Client
+2026-03,Transaction Fees,Mercury Broker Dealer,Broker Dealer,72,0,Q1,2026,Variable,Existing Client
+2026-03,Custody Fees,Prestige Capital Management,Institutional,28,675,Q1,2026,Recurring,Pipeline Conversion
+2026-01,Transaction Fees,Heritage Trust Co,RIA,15,320,Q1,2026,Variable,Existing Client
+2026-02,Transaction Fees,Heritage Trust Co,RIA,18,320,Q1,2026,Variable,Existing Client
+2026-02,Transaction Fees,Mercury Broker Dealer,Broker Dealer,65,0,Q1,2026,Variable,Existing Client
+2026-03,Transaction Fees,Heritage Trust Co,RIA,22,320,Q1,2026,Variable,Existing Client
+2026-01,Platform Fees,State Street Investment Management,Asset Manager,95,0,Q1,2026,Recurring,New Partnership
+2026-03,Advisory Fees,Prestige Capital Management,Institutional,38,675,Q1,2026,Recurring,Pipeline Conversion

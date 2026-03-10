@@ -1,0 +1,4 @@
+GoalID,GoalNumber,GoalDescription,TargetValue,MetricType,DataSource
+GOAL001,1,Win commitments from (2) new Wealth clients and develop pipeline of Wealth prospect opportunities,2,New Clients,WealthRevenueTracking.csv
+GOAL002,2,Deliver (5) or more Wealth business enhancements at Apex to position the firm for new business,5,Completed Enhancements,WealthBusinessEnhancements.csv
+GOAL003,3,Form (5) or more Wealth product distribution relationships including State Street Investment Management,5,Active Partnerships,WealthDistributionRelationships.csv

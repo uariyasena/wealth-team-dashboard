@@ -540,7 +540,23 @@ try:
         initiative_id = row['InitiativeID']
         initiative_desc = initiative_descriptions.get(initiative_id, row['InitiativeName'])
 
-        with st.expander(f"**{initiative_id}** - {initiative_desc}", expanded=False):
+        # Create prominent header with large initiative ID
+        st.markdown(f"""
+        <div style="background: linear-gradient(135deg, #E8F4FF 0%, #FFFFFF 100%);
+                    border-radius: 12px 12px 0 0;
+                    padding: 20px 24px;
+                    border-left: 5px solid #0090FF;
+                    margin-top: 20px;">
+            <h2 style="margin: 0; color: #003B73; font-size: 1.8em; font-weight: 700;">
+                {initiative_id}
+            </h2>
+            <p style="margin: 8px 0 0 0; color: #1F2937; font-size: 1.05em; line-height: 1.5;">
+                {initiative_desc}
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        with st.expander("📋 View Details", expanded=False):
             st.markdown(f"<p style='color: #6B7280; font-size: 0.9em;'><em>Last updated: {row['LastUpdated']}</em></p>", unsafe_allow_html=True)
             st.markdown("---")
 

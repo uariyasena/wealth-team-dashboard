@@ -961,47 +961,52 @@ try:
             )
             st.plotly_chart(fig_partner_rev, use_container_width=True)
 
-        # Partnership details table with custom gradient header
+        # Partnership details table with full gradient background (entire table)
         display_partnerships = relationships_df[['RelationshipID', 'PartnerName', 'PartnerType',
                                                  'RelationshipStage', 'Status', 'EstimatedAnnualRevenue_Thousands']]
         display_partnerships = display_partnerships.sort_values('EstimatedAnnualRevenue_Thousands', ascending=False)
 
-        # Create gradient header matching G.jpg (dark to light, left to right)
-        st.markdown("""
+        # Create complete HTML table with gradient across entire table (matching G.jpg)
+        gradient_html = """
         <div style="background: linear-gradient(90deg, #0A1628 0%, #1A3A52 25%, #2D5266 50%, #5A7A8C 75%, #8AA5B5 100%);
-                    border-radius: 8px 8px 0 0;
+                    border-radius: 8px;
                     padding: 0;
                     margin-top: 20px;
-                    overflow: hidden;">
-            <table style="width: 100%; border-collapse: collapse; margin: 0;">
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+            <table style="width: 100%; border-collapse: collapse; margin: 0; background: transparent;">
                 <thead>
-                    <tr style="background: transparent;">
-                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; width: 12%;">Relationship ID</th>
-                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; width: 24%;">Partner Name</th>
-                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; width: 16%;">Partner Type</th>
-                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; width: 20%;">Relationship Stage</th>
-                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; width: 12%;">Status</th>
-                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; width: 16%;">Est. Revenue ($K)</th>
+                    <tr>
+                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; border-bottom: 1px solid rgba(255,255,255,0.1);">Relationship ID</th>
+                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; border-bottom: 1px solid rgba(255,255,255,0.1);">Partner Name</th>
+                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; border-bottom: 1px solid rgba(255,255,255,0.1);">Partner Type</th>
+                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; border-bottom: 1px solid rgba(255,255,255,0.1);">Relationship Stage</th>
+                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; border-bottom: 1px solid rgba(255,255,255,0.1);">Status</th>
+                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; border-bottom: 1px solid rgba(255,255,255,0.1);">Est. Revenue ($K)</th>
                     </tr>
                 </thead>
+                <tbody>
+        """
+
+        # Add all data rows
+        for idx, row in display_partnerships.iterrows():
+            gradient_html += f"""
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                        <td style="color: rgba(255,255,255,0.9); padding: 12px 16px; font-size: 0.85em;">{row['RelationshipID']}</td>
+                        <td style="color: rgba(255,255,255,0.9); padding: 12px 16px; font-size: 0.85em;"><strong>{row['PartnerName']}</strong></td>
+                        <td style="color: rgba(255,255,255,0.9); padding: 12px 16px; font-size: 0.85em;">{row['PartnerType']}</td>
+                        <td style="color: rgba(255,255,255,0.9); padding: 12px 16px; font-size: 0.85em;">{row['RelationshipStage']}</td>
+                        <td style="color: rgba(255,255,255,0.9); padding: 12px 16px; font-size: 0.85em;">{row['Status']}</td>
+                        <td style="color: rgba(255,255,255,0.9); padding: 12px 16px; font-size: 0.85em;">{row['EstimatedAnnualRevenue_Thousands']:,.0f}</td>
+                    </tr>
+            """
+
+        gradient_html += """
+                </tbody>
             </table>
         </div>
-        """, unsafe_allow_html=True)
+        """
 
-        # Display dataframe without header (header is above)
-        st.dataframe(
-            display_partnerships,
-            use_container_width=True,
-            hide_index=True,
-            column_config={
-                'RelationshipID': st.column_config.TextColumn('', width='small'),
-                'PartnerName': st.column_config.TextColumn('', width='medium'),
-                'PartnerType': st.column_config.TextColumn('', width='small'),
-                'RelationshipStage': st.column_config.TextColumn('', width='medium'),
-                'Status': st.column_config.TextColumn('', width='small'),
-                'EstimatedAnnualRevenue_Thousands': st.column_config.NumberColumn('', format='%d')
-            }
-        )
+        st.markdown(gradient_html, unsafe_allow_html=True)
 
     # Footer - Apex branded
     st.markdown("---")

@@ -961,53 +961,47 @@ try:
             )
             st.plotly_chart(fig_partner_rev, use_container_width=True)
 
-        # Partnership details table with gradient header
-        st.markdown("**All Partnerships:**")
-
+        # Partnership details table with custom gradient header
         display_partnerships = relationships_df[['RelationshipID', 'PartnerName', 'PartnerType',
                                                  'RelationshipStage', 'Status', 'EstimatedAnnualRevenue_Thousands']]
         display_partnerships = display_partnerships.sort_values('EstimatedAnnualRevenue_Thousands', ascending=False)
 
-        # Apply Apex gradient to table header (matching G.jpg gradient)
-        def apply_gradient_style(df):
-            # Gradient from dark navy/black to light blue-gray (left to right like G.jpg)
-            return df.style.set_table_styles([
-                {
-                    'selector': 'thead',
-                    'props': [
-                        ('background', 'linear-gradient(90deg, #0A1628 0%, #1A3A52 25%, #2D5266 50%, #5A7A8C 75%, #8AA5B5 100%)'),
-                    ]
-                },
-                {
-                    'selector': 'thead th',
-                    'props': [
-                        ('background', 'linear-gradient(90deg, #0A1628 0%, #1A3A52 25%, #2D5266 50%, #5A7A8C 75%, #8AA5B5 100%)'),
-                        ('color', 'white'),
-                        ('font-weight', '600'),
-                        ('padding', '14px 16px'),
-                        ('text-align', 'left'),
-                        ('border', 'none'),
-                        ('font-size', '0.95em')
-                    ]
-                },
-                {
-                    'selector': 'tbody td',
-                    'props': [
-                        ('padding', '12px 16px'),
-                        ('border-bottom', '1px solid rgba(0, 144, 255, 0.1)'),
-                        ('font-size', '0.9em')
-                    ]
-                },
-                {
-                    'selector': 'tbody tr:hover',
-                    'props': [
-                        ('background-color', 'rgba(0, 144, 255, 0.05)')
-                    ]
-                }
-            ])
+        # Create gradient header matching G.jpg (dark to light, left to right)
+        st.markdown("""
+        <div style="background: linear-gradient(90deg, #0A1628 0%, #1A3A52 25%, #2D5266 50%, #5A7A8C 75%, #8AA5B5 100%);
+                    border-radius: 8px 8px 0 0;
+                    padding: 0;
+                    margin-top: 20px;
+                    overflow: hidden;">
+            <table style="width: 100%; border-collapse: collapse; margin: 0;">
+                <thead>
+                    <tr style="background: transparent;">
+                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; width: 12%;">Relationship ID</th>
+                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; width: 24%;">Partner Name</th>
+                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; width: 16%;">Partner Type</th>
+                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; width: 20%;">Relationship Stage</th>
+                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; width: 12%;">Status</th>
+                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; width: 16%;">Est. Revenue ($K)</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        """, unsafe_allow_html=True)
 
-        styled_df = apply_gradient_style(display_partnerships)
-        st.dataframe(styled_df, use_container_width=True, hide_index=True)
+        # Display dataframe without header (header is above)
+        st.dataframe(
+            display_partnerships,
+            use_container_width=True,
+            hide_index=True,
+            column_config={
+                'RelationshipID': st.column_config.TextColumn('', width='small'),
+                'PartnerName': st.column_config.TextColumn('', width='medium'),
+                'PartnerType': st.column_config.TextColumn('', width='small'),
+                'RelationshipStage': st.column_config.TextColumn('', width='medium'),
+                'Status': st.column_config.TextColumn('', width='small'),
+                'EstimatedAnnualRevenue_Thousands': st.column_config.NumberColumn('', format='%d')
+            }
+        )
 
     # Footer - Apex branded
     st.markdown("---")

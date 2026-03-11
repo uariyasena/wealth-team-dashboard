@@ -572,72 +572,77 @@ try:
 
     st.markdown("---")
 
-    # Q1 Initiatives Section - Clean expandable layout
+    # Q1 Initiatives Section - Editable Table
     st.header("🚀 Q1 2026 Initiatives")
 
-    # Initiative descriptions
-    initiative_descriptions = {
-        'INIT001': 'Advance State Street and Mercury Broker Dealer project efforts and finalize pending contractual agreements',
-        'INIT002': 'Work across Apex to scope, document, resource, and implement Wealth business enhancements including Non-Purpose Loans, Monthly Confirm Report, RIA Trade Away, Apex Advisory solution set and Schedule A updates',
-        'INIT003': 'Continued focus on all State Street related initiatives and opportunities',
-        'INIT004': 'Negotiate and finalize agreements with State Street Investment Management and Capital Group, develop pipeline of additional distribution opportunities'
-    }
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, #E8F4FF 0%, #FFFFFF 100%);
+                padding: 16px;
+                border-radius: 10px;
+                border-left: 4px solid #0090FF;
+                margin-bottom: 20px;">
+        <p style="color: #1F2937; margin: 0; font-size: 0.95em;">
+            <strong>Instructions:</strong> Click on any cell in the Progress, Next Steps, or Blockers columns to edit.
+            Changes save automatically when you click outside the cell.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
-    # Display initiatives in a clean, compact format
-    for idx, row in initiatives_df.iterrows():
-        initiative_id = row['InitiativeID']
-        initiative_desc = initiative_descriptions.get(initiative_id, row['InitiativeName'])
+    # Create editable dataframe
+    edited_initiatives = st.data_editor(
+        initiatives_df,
+        use_container_width=True,
+        hide_index=True,
+        num_rows="fixed",
+        column_config={
+            "InitiativeID": st.column_config.TextColumn(
+                "Initiative ID",
+                width="small",
+                disabled=True,
+                help="Unique identifier for the initiative"
+            ),
+            "InitiativeName": st.column_config.TextColumn(
+                "Initiative Name",
+                width="large",
+                disabled=True,
+                help="Full description of the initiative"
+            ),
+            "Progress": st.column_config.TextColumn(
+                "📊 Current Progress",
+                width="medium",
+                help="Current status and progress update"
+            ),
+            "NextSteps": st.column_config.TextColumn(
+                "⏭️ Next Steps",
+                width="medium",
+                help="Upcoming actions and milestones"
+            ),
+            "Blockers": st.column_config.TextColumn(
+                "🚧 Blockers & Risks",
+                width="medium",
+                help="Current blockers or risks (leave empty if none)"
+            ),
+            "LastUpdated": st.column_config.DateColumn(
+                "Last Updated",
+                width="small",
+                disabled=True,
+                help="Date of last update"
+            )
+        },
+        key="initiatives_editor"
+    )
 
-        # Create prominent header with large initiative ID
-        st.markdown(f"""
-        <div style="background: linear-gradient(135deg, #E8F4FF 0%, #FFFFFF 100%);
-                    border-radius: 12px 12px 0 0;
-                    padding: 20px 24px;
-                    border-left: 5px solid #0090FF;
-                    margin-top: 20px;">
-            <h2 style="margin: 0; color: #003B73; font-size: 1.8em; font-weight: 700;">
-                {initiative_id}
-            </h2>
-            <p style="margin: 8px 0 0 0; color: #1F2937; font-size: 1.05em; line-height: 1.5;">
-                {initiative_desc}
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
-
-        with st.expander("📋 View Details", expanded=False):
-            st.markdown(f"<p style='color: #6B7280; font-size: 0.9em;'><em>Last updated: {row['LastUpdated']}</em></p>", unsafe_allow_html=True)
-            st.markdown("---")
-
-            # Progress section
-            st.markdown("### 📊 Current Progress")
-            st.markdown(f"""
-            <div style="background-color: #E8F4FF; border-left: 4px solid #0090FF; padding: 16px; border-radius: 8px; margin: 10px 0;">
-                <p style="color: #1F2937; margin: 0; line-height: 1.6;">{row['Progress']}</p>
-            </div>
-            """, unsafe_allow_html=True)
-
-            # Next Steps section
-            st.markdown("### ⏭️ Next Steps")
-            st.markdown(f"""
-            <div style="background-color: #D1FAE5; border-left: 4px solid #10B981; padding: 16px; border-radius: 8px; margin: 10px 0;">
-                <p style="color: #1F2937; margin: 0; line-height: 1.6;">{row['NextSteps']}</p>
-            </div>
-            """, unsafe_allow_html=True)
-
-            # Blockers section
-            st.markdown("### 🚧 Blockers & Risks")
-            if row['Blockers'] and str(row['Blockers']).strip():
-                st.markdown(f"""
-                <div style="background-color: #FEF3C7; border-left: 4px solid #F59E0B; padding: 16px; border-radius: 8px; margin: 10px 0;">
-                    <p style="color: #1F2937; margin: 0; line-height: 1.6;">{row['Blockers']}</p>
-                </div>
-                """, unsafe_allow_html=True)
-            else:
-                st.markdown(f"""
-                <div style="background-color: #D1FAE5; border-left: 4px solid #10B981; padding: 16px; border-radius: 8px; margin: 10px 0;">
-                    <p style="color: #1F2937; margin: 0; line-height: 1.6;">No blockers identified</p>
-                </div>
-                """, unsafe_allow_html=True)
+    # Check if data was edited and save
+    if not edited_initiatives.equals(initiatives_df):
+        # Update the dataframe with edited data
+        if dp.save_initiatives(edited_initiatives):
+            st.success("✅ Changes saved successfully!")
+            # Clear cache to reload fresh data
+            st.cache_data.clear()
+            # Show last updated timestamp
+            st.info(f"📅 Last saved: {datetime.now().strftime('%B %d, %Y at %I:%M %p')}")
+        else:
+            st.error("❌ Error saving changes. Please try again.")
 
     st.markdown("---")
 
@@ -961,52 +966,26 @@ try:
             )
             st.plotly_chart(fig_partner_rev, use_container_width=True)
 
-        # Partnership details table with full gradient background (entire table)
+        # Partnership details table with gradient header
+        st.markdown("#### All Partnerships")
+
         display_partnerships = relationships_df[['RelationshipID', 'PartnerName', 'PartnerType',
                                                  'RelationshipStage', 'Status', 'EstimatedAnnualRevenue_Thousands']]
         display_partnerships = display_partnerships.sort_values('EstimatedAnnualRevenue_Thousands', ascending=False)
 
-        # Create complete HTML table with gradient across entire table (matching G.jpg)
-        gradient_html = """
-        <div style="background: linear-gradient(90deg, #0A1628 0%, #1A3A52 25%, #2D5266 50%, #5A7A8C 75%, #8AA5B5 100%);
-                    border-radius: 8px;
-                    padding: 0;
-                    margin-top: 20px;
-                    box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-            <table style="width: 100%; border-collapse: collapse; margin: 0; background: transparent;">
-                <thead>
-                    <tr>
-                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; border-bottom: 1px solid rgba(255,255,255,0.1);">Relationship ID</th>
-                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; border-bottom: 1px solid rgba(255,255,255,0.1);">Partner Name</th>
-                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; border-bottom: 1px solid rgba(255,255,255,0.1);">Partner Type</th>
-                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; border-bottom: 1px solid rgba(255,255,255,0.1);">Relationship Stage</th>
-                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; border-bottom: 1px solid rgba(255,255,255,0.1);">Status</th>
-                        <th style="color: white; font-weight: 600; padding: 14px 16px; text-align: left; font-size: 0.9em; border-bottom: 1px solid rgba(255,255,255,0.1);">Est. Revenue ($K)</th>
-                    </tr>
-                </thead>
-                <tbody>
-        """
-
-        # Add all data rows
-        for idx, row in display_partnerships.iterrows():
-            gradient_html += f"""
-                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                        <td style="color: rgba(255,255,255,0.9); padding: 12px 16px; font-size: 0.85em;">{row['RelationshipID']}</td>
-                        <td style="color: rgba(255,255,255,0.9); padding: 12px 16px; font-size: 0.85em;"><strong>{row['PartnerName']}</strong></td>
-                        <td style="color: rgba(255,255,255,0.9); padding: 12px 16px; font-size: 0.85em;">{row['PartnerType']}</td>
-                        <td style="color: rgba(255,255,255,0.9); padding: 12px 16px; font-size: 0.85em;">{row['RelationshipStage']}</td>
-                        <td style="color: rgba(255,255,255,0.9); padding: 12px 16px; font-size: 0.85em;">{row['Status']}</td>
-                        <td style="color: rgba(255,255,255,0.9); padding: 12px 16px; font-size: 0.85em;">{row['EstimatedAnnualRevenue_Thousands']:,.0f}</td>
-                    </tr>
-            """
-
-        gradient_html += """
-                </tbody>
-            </table>
-        </div>
-        """
-
-        st.markdown(gradient_html, unsafe_allow_html=True)
+        st.dataframe(
+            display_partnerships,
+            use_container_width=True,
+            hide_index=True,
+            column_config={
+                'RelationshipID': st.column_config.TextColumn('Relationship ID', width='small'),
+                'PartnerName': st.column_config.TextColumn('Partner Name', width='medium'),
+                'PartnerType': st.column_config.TextColumn('Partner Type', width='small'),
+                'RelationshipStage': st.column_config.TextColumn('Relationship Stage', width='medium'),
+                'Status': st.column_config.TextColumn('Status', width='small'),
+                'EstimatedAnnualRevenue_Thousands': st.column_config.NumberColumn('Est. Revenue ($K)', format='%d')
+            }
+        )
 
     # Footer - Apex branded
     st.markdown("---")

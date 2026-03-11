@@ -1071,26 +1071,99 @@ try:
             )
             st.plotly_chart(fig_partner_rev, use_container_width=True)
 
-        # Partnership details table with gradient header
-        st.markdown("#### All Partnerships")
+        # Interactive Partnership Cards
+        st.markdown("### 🤝 All Partnership Relationships")
 
-        display_partnerships = relationships_df[['RelationshipID', 'PartnerName', 'PartnerType',
-                                                 'RelationshipStage', 'Status', 'EstimatedAnnualRevenue_Thousands']]
+        # Sort by revenue estimate
+        display_partnerships = relationships_df.copy()
         display_partnerships = display_partnerships.sort_values('EstimatedAnnualRevenue_Thousands', ascending=False)
 
-        st.dataframe(
-            display_partnerships,
-            use_container_width=True,
-            hide_index=True,
-            column_config={
-                'RelationshipID': st.column_config.TextColumn('Relationship ID', width='small'),
-                'PartnerName': st.column_config.TextColumn('Partner Name', width='medium'),
-                'PartnerType': st.column_config.TextColumn('Partner Type', width='small'),
-                'RelationshipStage': st.column_config.TextColumn('Relationship Stage', width='medium'),
-                'Status': st.column_config.TextColumn('Status', width='small'),
-                'EstimatedAnnualRevenue_Thousands': st.column_config.NumberColumn('Est. Revenue ($K)', format='%d')
-            }
-        )
+        # Create 3-column grid layout
+        cols_per_row = 3
+        for i in range(0, len(display_partnerships), cols_per_row):
+            cols = st.columns(cols_per_row)
+            for j in range(cols_per_row):
+                if i + j < len(display_partnerships):
+                    partner = display_partnerships.iloc[i + j]
+                    with cols[j]:
+                        # Determine stage color and icon
+                        stage = partner['RelationshipStage']
+                        if stage == 'Partnership Active':
+                            border_color = '#10B981'
+                            bg_color = '#D1FAE5'
+                            stage_icon = '✅'
+                        elif stage == 'Contract Finalization':
+                            border_color = '#4F46E5'
+                            bg_color = '#E0E7FF'
+                            stage_icon = '📝'
+                        elif stage == 'Negotiation':
+                            border_color = '#F59E0B'
+                            bg_color = '#FEF3C7'
+                            stage_icon = '🤝'
+                        elif stage == 'Integration Testing':
+                            border_color = '#14B8A6'
+                            bg_color = '#CCFBF1'
+                            stage_icon = '🔧'
+                        elif stage == 'Proposal Stage':
+                            border_color = '#0090FF'
+                            bg_color = '#E8F4FF'
+                            stage_icon = '📄'
+                        else:  # Discovery
+                            border_color = '#9333EA'
+                            bg_color = '#F3E8FF'
+                            stage_icon = '🔍'
+
+                        # Partner type icon
+                        partner_type = partner['PartnerType']
+                        if 'Asset Manager' in partner_type:
+                            type_icon = '💼'
+                        elif 'Broker' in partner_type:
+                            type_icon = '📈'
+                        elif 'Custodian' in partner_type:
+                            type_icon = '🏦'
+                        elif 'Platform' in partner_type:
+                            type_icon = '⚙️'
+                        else:
+                            type_icon = '🤝'
+
+                        # Status badge
+                        if partner['Status'] == 'Active':
+                            status_badge = '<span style="background: #10B981; color: white; padding: 3px 10px; border-radius: 10px; font-size: 0.7em; font-weight: 600;">● Active</span>'
+                        else:
+                            status_badge = '<span style="background: #6B7280; color: white; padding: 3px 10px; border-radius: 10px; font-size: 0.7em; font-weight: 600;">○ Inactive</span>'
+
+                        # Build products text safely
+                        products_text = str(partner['ProductsOffered'])[:60] + "..." if len(str(partner['ProductsOffered'])) > 60 else str(partner['ProductsOffered'])
+
+                        # Card HTML - simplified
+                        card_html = f"""<div style="background: {bg_color}; border-left: 6px solid {border_color}; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-height: 320px;">
+<div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+<span style="font-size: 1.8em;">{type_icon}</span>
+<div style="text-align: right;">
+<div style="color: #6B7280; font-size: 0.75em; font-weight: 600; margin-bottom: 4px;">{partner['RelationshipID']}</div>
+{status_badge}
+</div>
+</div>
+<h4 style="color: #1F2937; margin: 0 0 8px 0; font-size: 1.2em; font-weight: 700;">{partner['PartnerName']}</h4>
+<div style="margin-bottom: 16px;">
+<span style="background: {border_color}; color: white; padding: 5px 12px; border-radius: 12px; font-size: 0.8em; font-weight: 600; display: inline-block; margin-bottom: 8px;">{stage_icon} {stage}</span>
+<br>
+<span style="background: #E5E7EB; color: #374151; padding: 4px 10px; border-radius: 10px; font-size: 0.75em; font-weight: 600;">{partner_type}</span>
+</div>
+<div style="background: rgba(255,255,255,0.7); border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+<div style="color: #6B7280; font-size: 0.8em; margin-bottom: 4px;">💰 Est. Annual Revenue</div>
+<div style="color: {border_color}; font-size: 1.4em; font-weight: 700;">${int(partner['EstimatedAnnualRevenue_Thousands'])}K</div>
+</div>
+<div style="border-top: 1px solid rgba(0,0,0,0.1); padding-top: 12px; margin-top: 12px;">
+<div style="color: #6B7280; font-size: 0.75em; margin-bottom: 6px;">👤 Key Contact</div>
+<div style="color: #1F2937; font-size: 0.85em; font-weight: 600;">{partner['KeyContact']}</div>
+</div>
+<div style="margin-top: 12px;">
+<div style="color: #6B7280; font-size: 0.75em; margin-bottom: 6px;">📦 Products</div>
+<div style="color: #374151; font-size: 0.8em; line-height: 1.4;">{products_text}</div>
+</div>
+</div>"""
+                        st.markdown(card_html, unsafe_allow_html=True)
 
     # Footer - Apex branded
     st.markdown("---")

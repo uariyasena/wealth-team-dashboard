@@ -572,7 +572,7 @@ try:
 
     st.markdown("---")
 
-    # Q1 Initiatives Section - Editable Table
+    # Q1 Initiatives Section - Beautiful Expandable Cards with Edit Capability
     st.header("🚀 Q1 2026 Initiatives")
 
     st.markdown("""
@@ -582,67 +582,74 @@ try:
                 border-left: 4px solid #0090FF;
                 margin-bottom: 20px;">
         <p style="color: #1F2937; margin: 0; font-size: 0.95em;">
-            <strong>Instructions:</strong> Click on any cell in the Progress, Next Steps, or Blockers columns to edit.
-            Changes save automatically when you click outside the cell.
+            <strong>Instructions:</strong> Expand any initiative to view details. Edit the text fields and click "Save Changes" to update.
         </p>
     </div>
     """, unsafe_allow_html=True)
 
-    # Create editable dataframe
-    edited_initiatives = st.data_editor(
-        initiatives_df,
-        use_container_width=True,
-        hide_index=True,
-        num_rows="fixed",
-        column_config={
-            "InitiativeID": st.column_config.TextColumn(
-                "Initiative ID",
-                width="small",
-                disabled=True,
-                help="Unique identifier for the initiative"
-            ),
-            "InitiativeName": st.column_config.TextColumn(
-                "Initiative Name",
-                width="large",
-                disabled=True,
-                help="Full description of the initiative"
-            ),
-            "Progress": st.column_config.TextColumn(
-                "📊 Current Progress",
-                width="medium",
-                help="Current status and progress update"
-            ),
-            "NextSteps": st.column_config.TextColumn(
-                "⏭️ Next Steps",
-                width="medium",
-                help="Upcoming actions and milestones"
-            ),
-            "Blockers": st.column_config.TextColumn(
-                "🚧 Blockers & Risks",
-                width="medium",
-                help="Current blockers or risks (leave empty if none)"
-            ),
-            "LastUpdated": st.column_config.DateColumn(
-                "Last Updated",
-                width="small",
-                disabled=True,
-                help="Date of last update"
-            )
-        },
-        key="initiatives_editor"
-    )
+    # Initiative descriptions
+    initiative_descriptions = {
+        'INIT001': 'Advance State Street and Mercury Broker Dealer project efforts and finalize pending contractual agreements',
+        'INIT002': 'Work across Apex to scope, document, resource, and implement Wealth business enhancements including Non-Purpose Loans, Monthly Confirm Report, RIA Trade Away, Apex Advisory solution set and Schedule A updates',
+        'INIT003': 'Continued focus on all State Street related initiatives and opportunities',
+        'INIT004': 'Negotiate and finalize agreements with State Street Investment Management and Capital Group, develop pipeline of additional distribution opportunities'
+    }
 
-    # Check if data was edited and save
-    if not edited_initiatives.equals(initiatives_df):
-        # Update the dataframe with edited data
-        if dp.save_initiatives(edited_initiatives):
-            st.success("✅ Changes saved successfully!")
-            # Clear cache to reload fresh data
-            st.cache_data.clear()
-            # Show last updated timestamp
-            st.info(f"📅 Last saved: {datetime.now().strftime('%B %d, %Y at %I:%M %p')}")
-        else:
-            st.error("❌ Error saving changes. Please try again.")
+    # Display initiatives in beautiful expandable cards with edit capability
+    for idx, row in initiatives_df.iterrows():
+        initiative_id = row['InitiativeID']
+        initiative_desc = initiative_descriptions.get(initiative_id, row['InitiativeName'])
+
+        # Create prominent header with large initiative ID
+        st.markdown(f"""
+        <div style="background: linear-gradient(135deg, #E8F4FF 0%, #FFFFFF 100%);
+                    border-radius: 12px 12px 0 0;
+                    padding: 20px 24px;
+                    border-left: 5px solid #0090FF;
+                    margin-top: 20px;">
+            <h2 style="margin: 0; color: #003B73; font-size: 1.8em; font-weight: 700;">
+                {initiative_id}
+            </h2>
+            <p style="margin: 8px 0 0 0; color: #1F2937; font-size: 1.05em; line-height: 1.5;">
+                {initiative_desc}
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        with st.expander("📋 View Details", expanded=False):
+            st.markdown(f"<p style='color: #6B7280; font-size: 0.9em;'><em>Last updated: {row['LastUpdated']}</em></p>", unsafe_allow_html=True)
+            st.markdown("---")
+
+            # Progress section
+            st.markdown("### 📊 Current Progress")
+            st.markdown(f"""
+            <div style="background-color: #E8F4FF; border-left: 4px solid #0090FF; padding: 16px; border-radius: 8px; margin: 10px 0;">
+                <p style="color: #1F2937; margin: 0; line-height: 1.6;">{row['Progress']}</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+            # Next Steps section
+            st.markdown("### ⏭️ Next Steps")
+            st.markdown(f"""
+            <div style="background-color: #D1FAE5; border-left: 4px solid #10B981; padding: 16px; border-radius: 8px; margin: 10px 0;">
+                <p style="color: #1F2937; margin: 0; line-height: 1.6;">{row['NextSteps']}</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+            # Blockers section
+            st.markdown("### 🚧 Blockers & Risks")
+            if row['Blockers'] and str(row['Blockers']).strip():
+                st.markdown(f"""
+                <div style="background-color: #FEF3C7; border-left: 4px solid #F59E0B; padding: 16px; border-radius: 8px; margin: 10px 0;">
+                    <p style="color: #1F2937; margin: 0; line-height: 1.6;">{row['Blockers']}</p>
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.markdown(f"""
+                <div style="background-color: #D1FAE5; border-left: 4px solid #10B981; padding: 16px; border-radius: 8px; margin: 10px 0;">
+                    <p style="color: #1F2937; margin: 0; line-height: 1.6;">No blockers identified</p>
+                </div>
+                """, unsafe_allow_html=True)
 
     st.markdown("---")
 
@@ -770,11 +777,25 @@ try:
                 ),
                 yaxis=dict(
                     showgrid=True,
-                    gridcolor='rgba(0,0,0,0.05)',
-                    title_font=dict(color='#1F2937', size=14),
-                    tickfont=dict(color='#1F2937', size=12)
+                    gridcolor='rgba(0,0,0,0.1)',
+                    title_font=dict(color='#1F2937', size=14, family='Inter'),
+                    tickfont=dict(color='#1F2937', size=16, family='Inter')
+                ),
+                coloraxis=dict(
+                    colorbar=dict(
+                        title=dict(
+                            text="Revenue ($K)",
+                            font=dict(color='#1F2937', size=12, family='Inter')
+                        ),
+                        tickfont=dict(color='#1F2937', size=12, family='Inter'),
+                        tickcolor='#1F2937',
+                        outlinecolor='#1F2937',
+                        outlinewidth=1
+                    )
                 )
             )
+            # Make Y-axis tick labels darker and more visible
+            fig_bar.update_yaxes(tickcolor='#1F2937', tickwidth=2, ticklen=8)
             st.plotly_chart(fig_bar, use_container_width=True)
 
         with col2:
@@ -800,8 +821,9 @@ try:
                 )
             )
             fig_pie.update_traces(
-                textfont=dict(size=13, family='Inter', color='#1F2937'),
-                marker=dict(line=dict(color='white', width=2))
+                textfont=dict(size=14, family='Inter', color='white'),
+                marker=dict(line=dict(color='white', width=2)),
+                textposition='inside'
             )
             st.plotly_chart(fig_pie, use_container_width=True)
 

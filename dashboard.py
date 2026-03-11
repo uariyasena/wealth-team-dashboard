@@ -900,11 +900,82 @@ try:
             )
             st.plotly_chart(fig_progress, use_container_width=True)
 
-        # Enhancement details table
-        st.markdown("**All Enhancements:**")
-        display_enhancements = enhancements_df[['EnhancementID', 'ProjectName', 'Category', 'Status', 'PercentComplete', 'EstimatedRevenue_Thousands']]
-        display_enhancements = display_enhancements.sort_values('PercentComplete', ascending=False)
-        st.dataframe(display_enhancements, use_container_width=True, hide_index=True)
+        # Interactive Project Cards
+        st.markdown("### 🎯 All Enhancement Projects")
+
+        # Sort by status priority and percent complete
+        status_order = {'Completed': 0, 'In Progress': 1, 'Planning': 2}
+        display_enhancements = enhancements_df.copy()
+        display_enhancements['status_order'] = display_enhancements['Status'].map(status_order)
+        display_enhancements = display_enhancements.sort_values(['status_order', 'PercentComplete'], ascending=[True, False])
+
+        # Create 2-column grid layout
+        cols_per_row = 2
+        for i in range(0, len(display_enhancements), cols_per_row):
+            cols = st.columns(cols_per_row)
+            for j in range(cols_per_row):
+                if i + j < len(display_enhancements):
+                    project = display_enhancements.iloc[i + j]
+                    with cols[j]:
+                        # Determine status color and styling
+                        if project['Status'] == 'Completed':
+                            border_color = '#10B981'
+                            bg_color = '#D1FAE5'
+                            status_icon = '✅'
+                            status_badge = 'Completed'
+                        elif project['Status'] == 'In Progress':
+                            border_color = '#0090FF'
+                            bg_color = '#E8F4FF'
+                            status_icon = '🔄'
+                            status_badge = 'In Progress'
+                        else:
+                            border_color = '#6B46C1'
+                            bg_color = '#EDE9FE'
+                            status_icon = '📋'
+                            status_badge = 'Planning'
+
+                        # Priority badge
+                        if project['Priority'] == 'Critical':
+                            priority_badge = '🔥 Critical'
+                            priority_color = '#DC2626'
+                        elif project['Priority'] == 'High':
+                            priority_badge = '⚡ High'
+                            priority_color = '#F59E0B'
+                        else:
+                            priority_badge = '📌 Medium'
+                            priority_color = '#6B7280'
+
+                        # Card HTML
+                        card_html = f"""
+                        <div style="background: {bg_color}; border-left: 6px solid {border_color}; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); height: 280px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                                <span style="font-size: 1.5em;">{status_icon}</span>
+                                <span style="color: #6B7280; font-size: 0.85em; font-weight: 600;">{project['EnhancementID']}</span>
+                            </div>
+                            <h4 style="color: #1F2937; margin: 0 0 12px 0; font-size: 1.1em; font-weight: 700;">{project['ProjectName']}</h4>
+                            <div style="margin-bottom: 16px;">
+                                <span style="background: {border_color}; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.75em; font-weight: 600; margin-right: 8px;">{status_badge}</span>
+                                <span style="background: {priority_color}; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.75em; font-weight: 600; margin-right: 8px;">{priority_badge}</span>
+                                <span style="background: #E5E7EB; color: #374151; padding: 4px 12px; border-radius: 12px; font-size: 0.75em; font-weight: 600;">{project['Category']}</span>
+                            </div>
+                            <div style="margin-top: 40px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                    <span style="color: #6B7280; font-size: 0.85em; font-weight: 600;">Progress</span>
+                                    <span style="color: {border_color}; font-size: 1.1em; font-weight: 700;">{int(project['PercentComplete'])}%</span>
+                                </div>
+                                <div style="background: rgba(0,0,0,0.1); border-radius: 10px; height: 12px; overflow: hidden;">
+                                    <div style="background: {border_color}; width: {project['PercentComplete']}%; height: 100%; border-radius: 10px;"></div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.1);">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: #6B7280; font-size: 0.85em;">Est. Revenue</span>
+                                    <span style="color: #1F2937; font-size: 0.95em; font-weight: 700;">${int(project['EstimatedRevenue_Thousands'])}K</span>
+                                </div>
+                            </div>
+                        </div>
+                        """
+                        st.markdown(card_html, unsafe_allow_html=True)
 
     with tab3:
         st.subheader("Distribution Partnerships")

@@ -959,7 +959,7 @@ try:
 
                         # Card HTML
                         card_html = f"""
-                        <div style="background: {bg_color}; border-left: 6px solid {border_color}; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); height: 280px;">
+                        <div style="background: {bg_color}; border-left: 6px solid {border_color}; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); height: 310px;">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
                                 <span style="font-size: 1.5em;">{status_icon}</span>
                                 <span style="color: #6B7280; font-size: 0.85em; font-weight: 600;">{project['EnhancementID']}</span>
@@ -1067,6 +1067,18 @@ try:
                     gridcolor='rgba(0,0,0,0.05)',
                     title_font=dict(color='#1F2937', size=14),
                     tickfont=dict(color='#1F2937', size=12)
+                ),
+                coloraxis=dict(
+                    colorbar=dict(
+                        title=dict(
+                            text="Est. Revenue ($K)",
+                            font=dict(color='#000000', size=14, family='Inter')
+                        ),
+                        tickfont=dict(color='#000000', size=13, family='Inter'),
+                        tickcolor='#000000',
+                        outlinecolor='#000000',
+                        outlinewidth=1
+                    )
                 )
             )
             st.plotly_chart(fig_partner_rev, use_container_width=True)

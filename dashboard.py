@@ -883,19 +883,31 @@ try:
                 showlegend=False,
                 plot_bgcolor='rgba(0,0,0,0)',
                 paper_bgcolor='rgba(0,0,0,0)',
-                font=dict(family='Inter', color='#1F2937', size=12),
+                font=dict(family='Inter', color='#000000', size=12),
                 title_font=dict(size=18, color='#1F2937', family='Inter'),
                 xaxis=dict(
                     showgrid=True,
                     gridcolor='rgba(0,0,0,0.05)',
-                    title_font=dict(color='#1F2937', size=14),
-                    tickfont=dict(color='#1F2937', size=12)
+                    title_font=dict(color='#000000', size=16, family='Inter'),
+                    tickfont=dict(color='#000000', size=13)
                 ),
                 yaxis=dict(
                     categoryorder='total ascending',
                     showgrid=False,
-                    title_font=dict(color='#1F2937', size=14),
+                    title_font=dict(color='#000000', size=16, family='Inter'),
                     tickfont=dict(color='#1F2937', size=11)
+                ),
+                coloraxis=dict(
+                    colorbar=dict(
+                        title=dict(
+                            text="Percent Complete",
+                            font=dict(color='#000000', size=14, family='Inter')
+                        ),
+                        tickfont=dict(color='#000000', size=13, family='Inter'),
+                        tickcolor='#000000',
+                        outlinecolor='#000000',
+                        outlinewidth=1
+                    )
                 )
             )
             st.plotly_chart(fig_progress, use_container_width=True)

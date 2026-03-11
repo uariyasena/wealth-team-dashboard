@@ -20,6 +20,75 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+# ============================================================================
+# PASSWORD PROTECTION - IMPORTANT SECURITY FEATURE
+# ============================================================================
+# Initialize session state for authentication
+if 'authenticated' not in st.session_state:
+    st.session_state.authenticated = False
+
+# Check if user is authenticated
+if not st.session_state.authenticated:
+    # Show login screen
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, #003B73 0%, #0090FF 100%);
+                padding: 40px;
+                border-radius: 15px;
+                margin: 100px auto;
+                max-width: 500px;
+                box-shadow: 0 4px 15px rgba(0, 144, 255, 0.3);">
+        <h1 style="color: white; text-align: center; margin: 0;">🔐 Wealth Team Dashboard</h1>
+        <p style="color: rgba(255,255,255,0.9); text-align: center; margin-top: 10px;">
+            Please enter the password to access sensitive financial data
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Password input
+    password = st.text_input("Enter Password:", type="password", key="password_input")
+
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col2:
+        login_button = st.button("🔓 Login", use_container_width=True)
+
+    # Check password (using Streamlit secrets)
+    if login_button:
+        # Get password from Streamlit secrets, fallback to default for local testing
+        try:
+            correct_password = st.secrets["dashboard_password"]
+        except:
+            correct_password = "WealthTeam2026!"  # Default password for local testing
+
+        if password == correct_password:
+            st.session_state.authenticated = True
+            st.success("✅ Login successful! Redirecting...")
+            st.rerun()
+        else:
+            st.error("❌ Incorrect password. Please try again.")
+
+    st.markdown("""
+    <div style="text-align: center; margin-top: 40px; color: #6B7280; font-size: 0.9em;">
+        <p>🔒 This dashboard contains sensitive financial information</p>
+        <p>Contact your team administrator for access</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Stop execution here if not authenticated
+    st.stop()
+
+# Add logout button in sidebar for authenticated users
+with st.sidebar:
+    st.markdown("### 👤 User Session")
+    if st.button("🚪 Logout"):
+        st.session_state.authenticated = False
+        st.rerun()
+    st.markdown("---")
+    st.markdown("**Status:** 🟢 Authenticated")
+
+# ============================================================================
+# MAIN DASHBOARD (Only shows if authenticated)
+# ============================================================================
+
 # Apex Fintech Solutions Brand Colors (Blue-dominant palette)
 APEX_NAVY = "#003B73"  # Primary brand color - Deep navy blue
 APEX_BLUE = "#0090FF"  # Secondary - Bright cyan blue

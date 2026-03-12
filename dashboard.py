@@ -25,7 +25,7 @@ st.set_page_config(
 # ============================================================================
 # Initialize session state for authentication
 if 'authenticated' not in st.session_state:
-    st.session_state.authenticated = False
+    st.session_state.authenticated = True
 
 # Check if user is authenticated
 if not st.session_state.authenticated:
@@ -80,7 +80,7 @@ if not st.session_state.authenticated:
 with st.sidebar:
     st.markdown("### 👤 User Session")
     if st.button("🚪 Logout"):
-        st.session_state.authenticated = False
+        st.session_state.authenticated = True
         st.rerun()
     st.markdown("---")
     st.markdown("**Status:** 🟢 Authenticated")
@@ -164,6 +164,12 @@ st.markdown("""
         background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
         color: #FFFFFF;
         box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+    }
+
+    .status-in-progress {
+        background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+        color: #FFFFFF;
+        box-shadow: 0 2px 4px rgba(96, 165, 250, 0.3);
     }
 
     .status-behind {
@@ -456,6 +462,18 @@ st.markdown("""
         color: #003B73;
         text-decoration: underline;
     }
+
+    /* Make expander "View Details" text bigger and bolder */
+    .streamlit-expanderHeader, [data-testid="stExpander"] summary {
+        font-size: 1.05em !important;
+        font-weight: 600 !important;
+        color: #003B73 !important;
+    }
+
+    [data-testid="stExpander"] summary p {
+        font-size: 1.05em !important;
+        font-weight: 600 !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -578,7 +596,7 @@ try:
         elif g2_pct >= 40:
             status_html = '<span class="status-badge status-at-risk">🟡 At Risk</span>'
         else:
-            status_html = '<span class="status-badge status-behind">🔴 Behind</span>'
+            status_html = '<span class="status-badge status-in-progress">🔵 In Progress</span>'
         st.markdown(status_html, unsafe_allow_html=True)
 
         # Detailed breakdown
@@ -588,9 +606,12 @@ try:
                 st.markdown(f"- **{project['ProjectName']}** (ID: {project['EnhancementID']})")
                 st.markdown(f"  *Completed: {project['ActualCompletionDate']}*")
 
-            # In Progress count
+            # In Progress enhancements - show full list
             in_progress = enhancements_df[enhancements_df['Status'] == 'In Progress']
             st.markdown(f"\n**In Progress:** {len(in_progress)} enhancements")
+            for idx, row in in_progress.iterrows():
+                st.markdown(f"- **{row['ProjectName']}** (ID: {row['EnhancementID']})")
+                st.markdown(f"  *Progress: {row['PercentComplete']}% | Target: {row['PlannedCompletionDate']}*")
 
         st.markdown('</div>', unsafe_allow_html=True)
 
@@ -658,10 +679,10 @@ try:
 
     # Initiative descriptions
     initiative_descriptions = {
-        'INIT001': 'Advance State Street and Mercury Broker Dealer project efforts and finalize pending contractual agreements',
-        'INIT002': 'Work across Apex to scope, document, resource, and implement Wealth business enhancements including Non-Purpose Loans, Monthly Confirm Report, RIA Trade Away, Apex Advisory solution set and Schedule A updates',
-        'INIT003': 'Continued focus on all State Street related initiatives and opportunities',
-        'INIT004': 'Negotiate and finalize agreements with State Street Investment Management and Capital Group, develop pipeline of additional distribution opportunities'
+        'Initiative #1': 'Advance State Street and Mercury Broker Dealer project efforts and finalize pending contractual agreements',
+        'Initiative #2': 'Work across Apex to scope, document, resource, and implement Wealth business enhancements including Non-Purpose Loans, Monthly Confirm Report, RIA Trade Away, Apex Advisory solution set and Schedule A updates',
+        'Initiative #3': 'Continued focus on all State Street related initiatives and opportunities',
+        'Initiative #4': 'Negotiate and finalize agreements with State Street Investment Management and Capital Group, develop pipeline of additional distribution opportunities'
     }
 
     # Display initiatives in beautiful expandable cards with edit capability

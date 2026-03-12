@@ -1,19 +1,6 @@
 EnhancementID,ProjectName,Category,Priority,Status,StartDate,PlannedCompletionDate,ActualCompletionDate,PercentComplete,AssignedTeam,BusinessImpact,EstimatedRevenue_Thousands
-ENH001,Non-Purpose Loans,Product Enhancement,High,In Progress,2026-01-15,2026-06-30,,65,Wealth Operations,Enable new lending product offering,450
-ENH002,Monthly Confirm Report,Reporting,Medium,In Progress,2025-11-01,2026-04-30,,80,Technology & Operations,Improve client reporting accuracy,125
-ENH003,RIA Trade Away Solution,Technology,High,Planning,2026-02-01,2026-09-30,,25,Technology & Product,Support external trading platforms,380
-ENH004,Apex Advisory Solution Set,Platform Enhancement,Critical,In Progress,2025-10-15,2026-05-31,,70,Technology & Sales,Position for institutional clients,820
-ENH005,Schedule A Updates,Compliance,High,In Progress,2025-12-01,2026-03-31,,85,Compliance & Operations,Regulatory requirement,0
-ENH006,State Street Integration Phase 2,Partnership,Critical,Planning,2026-01-20,2026-08-15,,35,Technology & RM,Expand distribution capabilities,650
-ENH007,Client Portal Enhancements,Technology,Medium,Completed,2025-09-01,2025-12-31,2025-12-28,100,Technology,Improve client experience,220
-ENH008,Mercury Broker Dealer Integration,Partnership,High,In Progress,2025-11-10,2026-04-15,,55,Technology & RM,New distribution channel,540
-ENH009,Performance Reporting Upgrade,Reporting,Medium,Planning,2026-02-15,2026-07-31,,15,Technology & Operations,Enhanced analytics for clients,185
-ENH010,Automated Reconciliation Tool,Operations,High,In Progress,2026-01-05,2026-05-15,,45,Operations & Technology,Improve efficiency by 30%,95
-ENH011,Mobile App Authentication Upgrade,Security,High,Completed,2025-12-10,2026-01-31,2026-01-28,100,Technology & Security,Enhanced security for mobile access,0
-ENH012,Tax Document Portal,Compliance,Medium,Completed,2025-11-15,2026-02-15,2026-02-12,100,Tax & Compliance,Streamline tax reporting for clients,75
-ENH013,Wire Transfer Automation,Operations,High,Completed,2025-12-01,2026-02-28,2026-02-25,100,Operations & Technology,Reduce wire processing time by 60%,110
-ENH014,Client Onboarding Workflow,Process,Medium,Completed,2026-01-05,2026-03-10,2026-03-08,100,Operations & Sales,Reduce onboarding time from 5 to 2 days,200
-ENH015,Real-Time Position Reconciliation,Technology,Critical,Completed,2025-11-20,2026-02-20,2026-02-18,100,Technology & Operations,Eliminate daily reconciliation breaks,0
-ENH016,Enhanced Fee Billing Engine,Platform Enhancement,High,In Progress,2026-01-10,2026-06-15,,50,Technology & Finance,Support complex fee structures,340
-ENH017,Multi-Currency Account Support,Product Enhancement,Medium,Planning,2026-02-20,2026-08-30,,20,Technology & Product,Enable international client accounts,520
-ENH018,Advisor Dashboard Analytics,Reporting,Medium,In Progress,2026-01-25,2026-05-20,,40,Technology & Sales,Provide advisors with client insights,95
+ENH001,Non-Purpose Loans,Product Enhancement,High,In Progress,1/15/2026,6/30/2026,,65,Wealth Operations,Enable new lending product offering,450
+ENH002,Monthly Confirm Report,Reporting,Medium,In Progress,11/1/2025,4/30/2026,,80,Technology & Operations,Improve client reporting accuracy,125
+ENH003,RIA Trade Away Solution,Technology,High,In Progress,2/1/2026,9/30/2026,,25,Technology & Product,Support external trading platforms,380
+ENH004,Apex Advisory Solution Set,Platform Enhancement,Critical,In Progress,10/15/2025,5/31/2026,,70,Technology & Sales,Position for institutional clients,820
+ENH005,Schedule A Updates,Compliance,High,In Progress,12/1/2025,3/31/2026,,85,Compliance & Operations,Regulatory requirement,0

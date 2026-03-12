@@ -25,7 +25,7 @@ st.set_page_config(
 # ============================================================================
 # Initialize session state for authentication
 if 'authenticated' not in st.session_state:
-    st.session_state.authenticated = True
+    st.session_state.authenticated = False
 
 # Check if user is authenticated
 if not st.session_state.authenticated:
